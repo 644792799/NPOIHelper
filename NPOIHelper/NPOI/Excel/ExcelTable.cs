@@ -1,0 +1,42 @@
+﻿using NPOIHelper.NPOI.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NPOIHelper.NPOI.Excel
+{
+    public class ExcelTable : Table
+    {
+        public ExcelTable() : base() { }
+
+        public override Row CreateRow(bool isHeader = false)
+        {
+            ExcelRow row = new ExcelRow();
+            row.IsHead = isHeader;
+            return row;
+        }
+
+        public override void AddRow(Row row)
+        {
+            Rows.Add(row);
+        }
+
+        public override void AddRow(int rowIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteRow(int rowIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteRows(int fromRowIndex, int toRowIndex)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
