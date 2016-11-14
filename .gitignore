@@ -11,5 +11,8 @@ NPOIHelper/[Bb]in/
 NPOIHelper/[Oo]bj/
 NPOIHelper/build/
 
+Test/[Bb]in/
+Test/[Oo]bj/
+
 #other
 packages/

@@ -10,7 +10,11 @@ namespace NPOIHelper.NPOI.Excel
 {
     public class ExcelTable : Table
     {
-        public ExcelTable() : base() { }
+        public ExcelTable()
+            : base()
+        {
+            //Rows = new List<Row>();
+        }
 
         public override Row CreateRow(bool isHeader = false)
         {
@@ -37,6 +41,11 @@ namespace NPOIHelper.NPOI.Excel
         public override void DeleteRows(int fromRowIndex, int toRowIndex)
         {
             throw new NotImplementedException();
+        }
+
+        public void ExportToExcel()
+        {
+
         }
     }
 }

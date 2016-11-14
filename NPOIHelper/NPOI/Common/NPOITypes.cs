@@ -13,6 +13,21 @@ namespace NPOIHelper.NPOI.Common
         String = CellType.String,
         Numeric = CellType.Numeric,
     }
+    public enum TextAlign
+    {
+        Center,
+        Left,
+        Right
+    }
+    public enum DefaultCellStyle
+    {
+        Title,
+        Header,
+        Footer,
+        TableHeader,
+        TableBody,
+        TableFooter
+    }
     public enum FontColors
     {
         Aqua = HSSFColor.Aqua.Index,

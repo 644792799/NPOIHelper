@@ -8,16 +8,20 @@ namespace NPOIHelper.NPOI.Abstract
 {
     public abstract class Table
     {
+        public Header Header { get; set; }
         public string Title { get; set; }
         public IList<Row> Rows { get; set; }
-        public IList<string> Columns { get; set; }
+        public int ColumnCount { get; set; }
+        public int[] ColumnWidths { get; set; }
+        //public IList<string> Columns { get; set; }
+        public Footer Footer { get; set; }
 
         public Table()
         {
             Rows = new List<Row>();
         }
 
-        abstract public Row CreateRow();
+        abstract public Row CreateRow(bool isHeader);
         abstract public void AddRow(Row row);
         abstract public void AddRow(int rowIndex);
         abstract public void DeleteRow(int rowIndex);

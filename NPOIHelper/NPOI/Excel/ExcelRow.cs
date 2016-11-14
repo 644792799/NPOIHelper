@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 
 namespace NPOIHelper.NPOI.Excel
 {
-    class ExcelRow : Row
+    public class ExcelRow : Row
     {
-        public override int CreateCell()
+        public ExcelRow()
+            : base()
         {
-            
-            throw new NotImplementedException();
+
+        }
+        public override Cell CreateCell()
+        {
+            Cell cell = new ExcelCell();
+            return cell;
         }
 
-        public override void AddCell()
+        public override void AddCell(Cell cell)
         {
-            throw new NotImplementedException();
+            Cells.Add(cell);
         }
 
         public override void AddCell(int columnIndex)

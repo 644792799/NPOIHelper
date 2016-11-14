@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NPOIHelper
+namespace NPOIHelper.NPOI.Abstract
 {
-    public class Class1
+    public abstract class Footer
     {
+        public IList<Row> Rows { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NPOIHelper.NPOI.Common;
+﻿using NPOI.SS.UserModel;
+using NPOIHelper.NPOI.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,24 @@ namespace NPOIHelper.NPOI.Abstract
     {
         public dynamic Value { get; set; }
         public CellTypes CellType { get; set; }
-        public short? FontColor { get; set; }
+        //public TextAlign TextAlign { get; set; }
+        private ICellStyle cellStyle;
+        public ICellStyle CellStyle
+        {
+            get
+            {
+
+                return cellStyle;
+            }
+            set
+            {
+                this.cellStyle = value;
+            }
+        }
+        public int Colspan { get; set; }
+        public int Rowspan { get; set; }
+
+        public Cell() { }
 
         public Cell(dynamic value) {
             Value = value;
@@ -20,27 +38,6 @@ namespace NPOIHelper.NPOI.Abstract
         public Cell(dynamic value,CellTypes cellType) {
             Value = value;
             CellType = cellType;
-        }
-        public Cell(dynamic value,FontColors fontColor) {
-            Value = value;
-            CellType = CellTypes.String;
-            FontColor = (short)fontColor;
-        }
-        public Cell(dynamic value,short fontColor) {
-            Value = value;
-            CellType = CellTypes.String;
-            FontColor = fontColor;
-        }
-        public Cell(dynamic value,CellTypes cellType,FontColors fontColor) {
-            Value = value;
-            CellType = cellType;
-            FontColor = (short)fontColor;
-        }
-        public Cell(dynamic value, CellTypes cellType, short fontColor)
-        {
-            Value = value;
-            CellType = cellType;
-            FontColor = fontColor;
         }
     }
 }

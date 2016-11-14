@@ -8,6 +8,10 @@ namespace NPOIHelper.NPOI.Abstract
 {
     public abstract class Row
     {
+        public Row()
+        {
+            Cells = new List<Cell>();
+        }
         public bool IsHead { get; set; }
         public IList<Cell> Cells { get; set; }
 
