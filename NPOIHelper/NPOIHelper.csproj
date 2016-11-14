@@ -59,6 +59,7 @@
     <Compile Include="NPOI\Common\NPOITypes.cs" />
     <Compile Include="NPOI\Excel\ExcelCell.cs" />
     <Compile Include="NPOI\Excel\ExcelCellSetter.cs" />
+    <Compile Include="NPOI\Excel\ExcelHeader.cs" />
     <Compile Include="NPOI\Excel\ExcelHelper.cs" />
     <Compile Include="NPOI\Excel\ExcelRow.cs" />
     <Compile Include="NPOI\Excel\ExcelTable.cs" />

@@ -42,7 +42,7 @@ namespace NPOIHelper.NPOI.Excel
                         {
                             for (var i = 0; i < columnCount; i++)
                             {
-                                sheet.SetColumnWidth(i, table.ColumnWidths[i]);
+                                sheet.SetColumnWidth(i, table.ColumnWidths[i]*256);
                             }
                         }
                         else
@@ -60,10 +60,11 @@ namespace NPOIHelper.NPOI.Excel
                         if (!string.IsNullOrWhiteSpace(table.Title))
                         {
                             IRow rowTitle = sheet.CreateRow(rowIndex++);
+                            rowTitle.Height = short.Parse(table.TitleHeight * 20 + "");
                             ICell headerCell = rowTitle.CreateCell(0);
                             headerCell.SetCellValue(table.Title);
-                            ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
                             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, columnCount - 1));
+                            ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
                         }
                     }
 
@@ -72,7 +73,20 @@ namespace NPOIHelper.NPOI.Excel
                     {
                         for (var rindex = 0; rindex < table.Header.Rows.Count; rindex++)
                         {
-
+                            var headerRow = sheet.CreateRow(rowIndex);
+                            var row = table.Header.Rows[rindex];
+                            headerRow.Height = short.Parse(row.Height * 20 + "");
+                            int colindex = 0;
+                            for (var cindex = 0; cindex < row.Cells.Count; cindex++)
+                            {
+                                int colspan = row.Cells[cindex].Colspan;
+                                CellRangeAddress address = new CellRangeAddress(rowIndex, rowIndex, colindex, colindex + colspan - 1);
+                                sheet.AddMergedRegion(address);
+                                headerRow.CreateCell(colindex).SetCellValue(row.Cells[cindex].Value);
+                                ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+                                colindex = colindex + colspan;
+                            }
+                            rowIndex++;
                         }
                     }
 
@@ -85,6 +99,7 @@ namespace NPOIHelper.NPOI.Excel
                     if (head != null)
                     {
                         var headerRow = sheet.CreateRow(rowIndex++);
+                        headerRow.Height = short.Parse(head.Height * 20 + "");
                         for (var i = 0; i < columnCount; i++)
                         {
                             ExcelCell cell = (ExcelCell)head.Cells[i];
@@ -104,6 +119,7 @@ namespace NPOIHelper.NPOI.Excel
                     foreach (var row in body)
                     {
                         var dataRow = sheet.CreateRow(rowIndex++);
+                        dataRow.Height = short.Parse(row.Height * 20 + "");
                         for (var i = 0; i < columnCount; i++)
                         {
                             dataRow.CreateCell(i, (CellType)row.Cells[i].CellType).SetCellValue(row.Cells[i].Value);

@@ -22,6 +22,7 @@ namespace NPOIHelper.NPOI.Excel
             IFont ifont = wb.CreateFont();
             ifont.FontName = "宋体";
             ifont.FontHeightInPoints = 9;
+            ifont.Boldweight = (short)FontBoldWeight.Normal;
             cellStyle.BorderLeft = BorderStyle.Thin;
             cellStyle.BorderRight = BorderStyle.Thin;
             cellStyle.BorderTop = BorderStyle.Thin;
@@ -39,10 +40,21 @@ namespace NPOIHelper.NPOI.Excel
         public static void SetDefaultTitleCellStyle(IWorkbook workbook, ICell cell)
         {
             ICellStyle cellStyle = GetDefaultCellStyle(workbook);
-            IFont ifont = workbook.CreateFont();
+            //边框  
+            cellStyle.BorderLeft = BorderStyle.None;
+            cellStyle.BorderRight = BorderStyle.None;
+            cellStyle.BorderTop = BorderStyle.None;
+            cellStyle.BorderBottom = BorderStyle.None;
+
+            IFont ifont = workbook.CreateFont();//cellStyle.GetFont(workbook);
+            
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
-            ifont.FontHeightInPoints = 12;
+            cellStyle.Alignment = HorizontalAlignment.Center;
+            cellStyle.WrapText = true;
+            ifont.FontName = "方正姚体";
+            ifont.FontHeightInPoints = 20;
             ifont.Boldweight = (short)FontBoldWeight.Bold;
+            ifont.Color = HSSFColor.BlueGrey.Index;
             cellStyle.SetFont(ifont);
 
             cell.CellStyle = cellStyle;
@@ -51,23 +63,20 @@ namespace NPOIHelper.NPOI.Excel
         public static void SetDefaultTableHeaderCellStyle(IWorkbook workbook, ICell cell)
         {
             ICellStyle cellStyle = GetDefaultCellStyle(workbook);
-            IFont ifont = workbook.CreateFont();
+            IFont ifont = workbook.CreateFont();//cellStyle.GetFont(workbook);
             //背景
             cellStyle.FillPattern = FillPattern.SolidForeground;
-            cellStyle.FillForegroundColor = HSSFColor.LemonChiffon.Index;
+            cellStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
             //水平对齐 
             cellStyle.Alignment = HorizontalAlignment.Center;
             //垂直对齐
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
-            //边框  
-            cellStyle.BorderLeft = BorderStyle.None;
-            cellStyle.BorderRight = BorderStyle.None;
-            cellStyle.BorderTop = BorderStyle.None;
-            cellStyle.BorderBottom = BorderStyle.None;
+            
             //字体样式
-            ifont.FontHeightInPoints = 16;
+            ifont.FontName = "方正姚体";
+            ifont.FontHeightInPoints = 12;
             ifont.Boldweight = (short)FontBoldWeight.Bold;
-            ifont.Color = HSSFColor.Green.Index;
+            ifont.Color = HSSFColor.Black.Index;
             cellStyle.SetFont(ifont);
 
             cell.CellStyle = cellStyle;
@@ -85,7 +94,29 @@ namespace NPOIHelper.NPOI.Excel
 
         public static void SetDefaultHeaderCellStyle(IWorkbook workbook, ICell cell)
         {
+            ICellStyle cellStyle = GetDefaultCellStyle(workbook);
+            //边框  
+            cellStyle.BorderLeft = BorderStyle.None;
+            cellStyle.BorderRight = BorderStyle.None;
+            cellStyle.BorderTop = BorderStyle.None;
+            cellStyle.BorderBottom = BorderStyle.None;
 
+            IFont ifont = workbook.CreateFont();//cellStyle.GetFont(workbook);
+
+            //水平对齐 
+            cellStyle.Alignment = HorizontalAlignment.Left;
+            //垂直对齐
+            cellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cellStyle.WrapText = true;
+
+            //字体样式
+            ifont.FontName = "宋体";
+            ifont.FontHeightInPoints = 10;
+            ifont.Boldweight = (short)FontBoldWeight.Normal;
+            ifont.Color = HSSFColor.SeaGreen.Index;
+            cellStyle.SetFont(ifont);
+
+            cell.CellStyle = cellStyle;
         }
 
         public static void SetDefaultFooterCellStyle(IWorkbook workbook, ICell cell)
