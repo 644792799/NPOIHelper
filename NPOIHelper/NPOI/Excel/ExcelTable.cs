@@ -16,10 +16,11 @@ namespace NPOIHelper.NPOI.Excel
             //Rows = new List<Row>();
         }
 
-        public override Row CreateRow(bool isHeader = false)
+        public override Row CreateRow(bool isRowHeader = false)
         {
             ExcelRow row = new ExcelRow();
-            row.IsHead = isHeader;
+            row.IsRowHead = isRowHeader;
+            //row.IsColHead = isColHeader;
             return row;
         }
 

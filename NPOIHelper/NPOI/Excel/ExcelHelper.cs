@@ -28,12 +28,12 @@ namespace NPOIHelper.NPOI.Excel
             {
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 int rowIndex = 0;
+                HSSFSheet sheet = null;
                 foreach (var table in listTable)
                 {
                     int columnCount = table.ColumnCount;
-                    var head = table.Rows.FirstOrDefault(r => r.IsHead);
-                    var body = table.Rows.Where(r => !r.IsHead).ToList();
-                    HSSFSheet sheet = null;
+                    var head = table.Rows.FirstOrDefault(r => r.IsRowHead);
+                    var body = table.Rows.Where(r => !r.IsRowHead).ToList();
 
                     if (rowIndex == 0)
                     {
@@ -77,13 +77,23 @@ namespace NPOIHelper.NPOI.Excel
                             var row = table.Header.Rows[rindex];
                             headerRow.Height = short.Parse(row.Height * 20 + "");
                             int colindex = 0;
+                            ICellStyle defaultHeaderCellStyle = ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
                             {
                                 int colspan = row.Cells[cindex].Colspan;
                                 CellRangeAddress address = new CellRangeAddress(rowIndex, rowIndex, colindex, colindex + colspan - 1);
                                 sheet.AddMergedRegion(address);
                                 headerRow.CreateCell(colindex).SetCellValue(row.Cells[cindex].Value);
-                                ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+
+                                if (row.Cells[cindex].CellStyle != null)
+                                {
+                                    ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                }
+                                else
+                                {
+                                    ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], defaultHeaderCellStyle);
+                                    //ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+                                }
                                 colindex = colindex + colspan;
                             }
                             rowIndex++;
@@ -100,6 +110,7 @@ namespace NPOIHelper.NPOI.Excel
                     {
                         var headerRow = sheet.CreateRow(rowIndex++);
                         headerRow.Height = short.Parse(head.Height * 20 + "");
+                        ICellStyle defaultTableHeaderCellStyle = ExcelCellSetter.GetDefaultTableHeaderCellStyle(workbook);
                         for (var i = 0; i < columnCount; i++)
                         {
                             ExcelCell cell = (ExcelCell)head.Cells[i];
@@ -110,7 +121,8 @@ namespace NPOIHelper.NPOI.Excel
                             }
                             else
                             {
-                                ExcelCellSetter.SetDefaultTableHeaderCellStyle(workbook, headerRow.Cells[i]);
+                                ExcelCellSetter.SetCellStyle(headerRow.Cells[i], defaultTableHeaderCellStyle);
+                                //ExcelCellSetter.SetDefaultTableHeaderCellStyle(workbook, headerRow.Cells[i]);
                             }
                         }
                     }
@@ -120,10 +132,21 @@ namespace NPOIHelper.NPOI.Excel
                     {
                         var dataRow = sheet.CreateRow(rowIndex++);
                         dataRow.Height = short.Parse(row.Height * 20 + "");
+                        ICellStyle defaultcellstyle = ExcelCellSetter.GetDefaultCellStyle(workbook);
                         for (var i = 0; i < columnCount; i++)
                         {
-                            dataRow.CreateCell(i, (CellType)row.Cells[i].CellType).SetCellValue(row.Cells[i].Value);
-                            ExcelCellSetter.SetDefaultCellStyle(workbook, dataRow.Cells[i]);
+                            ExcelCell cell = (ExcelCell)row.Cells[i];
+                            var cellval = cell.Value == null ? "" : cell.Value;
+                            dataRow.CreateCell(i, (CellType)cell.CellType).SetCellValue(cellval);
+                            if (cell.CellStyle != null)
+                            {
+                                ExcelCellSetter.SetCellStyle(dataRow.Cells[i], cell.CellStyle);
+                            }
+                            else
+                            {
+                                //ExcelCellSetter.SetDefaultCellStyle(workbook, dataRow.Cells[i]);
+                                ExcelCellSetter.SetCellStyle(dataRow.Cells[i], defaultcellstyle);
+                            }
                         }
                     }
 
@@ -131,7 +154,33 @@ namespace NPOIHelper.NPOI.Excel
                     if (table.Footer != null)
                     {
                         Footer footer = table.Footer;
+                        for (var rindex = 0; rindex < table.Footer.Rows.Count; rindex++)
+                        {
+                            var footerRow = sheet.CreateRow(rowIndex);
+                            var row = table.Footer.Rows[rindex];
+                            footerRow.Height = short.Parse(row.Height * 20 + "");
+                            int colindex = 0;
+                            ICellStyle defaultFooterCellStyle = ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
+                            for (var cindex = 0; cindex < row.Cells.Count; cindex++)
+                            {
+                                int colspan = row.Cells[cindex].Colspan;
+                                CellRangeAddress address = new CellRangeAddress(rowIndex, rowIndex, colindex, colindex + colspan - 1);
+                                sheet.AddMergedRegion(address);
+                                footerRow.CreateCell(colindex).SetCellValue(row.Cells[cindex].Value);
 
+                                if (row.Cells[cindex].CellStyle != null)
+                                {
+                                    ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                }
+                                else
+                                {
+                                    ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], defaultFooterCellStyle);
+                                    //ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+                                }
+                                colindex = colindex + colspan;
+                            }
+                            rowIndex++;
+                        }
                     }
 
                     if (!isOnlyOneSheet)

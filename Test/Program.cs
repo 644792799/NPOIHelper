@@ -14,64 +14,69 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            ExcelTable table = new ExcelTable();
-            table.Title = "测试";
-            table.ColumnCount = 5;
-            int[] columnswidth = new int[table.ColumnCount];
+            List<ExcelTable> l = new List<ExcelTable>();
 
-            ExcelHeader header = new ExcelHeader();
-            
-            ExcelRow headerrow = (ExcelRow)table.CreateRow();
-            headerrow.Height = 20;
-            ExcelCell headercell = (ExcelCell)headerrow.CreateCell();
-            headercell.Value = "表格描述信息";
-            headercell.Colspan = table.ColumnCount;
-            headerrow.AddCell(headercell);
-
-            List<Row> rows = new List<Row>();
-            rows.Add(new ExcelRow());
-            rows.Add(headerrow);
-            header.Rows = rows;
-            table.Header = header;
-
-            for (int r = 0; r < 5; r++)
+            for (int k = 0; k < 4; k++)
             {
-                ExcelRow row;
-                if (r == 0)
-                {
-                    row = (ExcelRow)table.CreateRow(true);
-                    row.Height = 28;
-                }
-                else
-                {
-                    row = (ExcelRow)table.CreateRow();
-                }
+                ExcelTable table = new ExcelTable();
+                table.Title = "疑似黑广播信号出现情况" + (k + 1);
+                table.ColumnCount = 5;
+                int[] columnswidth = new int[table.ColumnCount];
 
-                for (int i = 0; i < table.ColumnCount; i++)
+                ExcelHeader header = new ExcelHeader();
+
+                ExcelRow headerrow = (ExcelRow)table.CreateRow();
+                headerrow.Height = 20;
+                ExcelCell headercell = (ExcelCell)headerrow.CreateCell();
+                headercell.Value = "表格描述信息";
+                headercell.Colspan = table.ColumnCount;
+                headerrow.AddCell(headercell);
+
+                List<Row> rows = new List<Row>();
+                rows.Add(new ExcelRow());
+                rows.Add(headerrow);
+                header.Rows = rows;
+                table.Header = header;
+
+                for (int r = 0; r < 5; r++)
                 {
-                    ExcelCell cell = (ExcelCell)row.CreateCell();
-                    if (i == 1)
+                    ExcelRow row;
+                    if (r == 0)
                     {
-                        cell.CellType = NPOIHelper.NPOI.Common.CellTypes.Numeric;
-                        cell.Value = r * i;
+                        row = (ExcelRow)table.CreateRow(true);
+                        row.Height = 28;
                     }
                     else
                     {
-                        cell.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
-                        cell.Value = "行:" + r + " 列:" + i;
+                        row = (ExcelRow)table.CreateRow();
                     }
-                    
-                    //cell.FontColor = HSSFColor.BlueGrey.Index;
-                    row.AddCell(cell);
-                    columnswidth[i] = 20;
+
+                    for (int i = 0; i < table.ColumnCount; i++)
+                    {
+                        ExcelCell cell = (ExcelCell)row.CreateCell();
+                        if (i == 1)
+                        {
+                            cell.CellType = NPOIHelper.NPOI.Common.CellTypes.Numeric;
+                            cell.Value = r * i;
+                        }
+                        else
+                        {
+                            cell.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
+                            cell.Value = "行:" + r + " 列:" + i;
+                        }
+
+                        //cell.FontColor = HSSFColor.BlueGrey.Index;
+                        row.AddCell(cell);
+                        columnswidth[i] = 20;
+                    }
+                    table.ColumnWidths = columnswidth;
+                    table.AddRow(row);
                 }
-                table.ColumnWidths = columnswidth;
-                table.AddRow(row);
+
+                l.Add(table);
             }
-            List<ExcelTable> l = new List<ExcelTable>();
-            l.Add(table);
             ExcelHelper excelhelper = new ExcelHelper(l);
-            MemoryStream s = excelhelper.RenderToXls();
+            MemoryStream s = excelhelper.RenderToXls(false);
             excelhelper.SaveToFile(s, "d:/test.xls");
         }
     }

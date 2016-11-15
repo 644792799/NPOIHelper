@@ -11,9 +11,11 @@ namespace NPOIHelper.NPOI.Abstract
         public Row()
         {
             Cells = new List<Cell>();
-            IsHead = false;
+            IsRowHead = false;
+            IsColHead = false;
         }
-        public bool IsHead { get; set; }
+        public bool IsRowHead { get; set; }
+        public bool IsColHead { get; set; }
         public IList<Cell> Cells { get; set; }
         private short height = 25;
         public short Height 

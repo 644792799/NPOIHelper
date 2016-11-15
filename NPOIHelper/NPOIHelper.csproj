@@ -31,17 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NPOI">
-      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>CommonLibrary\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,6 +68,7 @@
     <Content Include="CommonLibrary\NPOI.OpenXml4Net.dll" />
     <Content Include="CommonLibrary\NPOI.OpenXmlFormats.dll" />
     <Content Include="CommonLibrary\NPOI.XML" />
+    <Content Include="CommonLibrary\NPOI_new.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
