@@ -12,6 +12,7 @@ namespace NPOIHelper.NPOI.Common
     {
         String = CellType.String,
         Numeric = CellType.Numeric,
+        Image
     }
     public enum TextAlign
     {

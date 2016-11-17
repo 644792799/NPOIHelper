@@ -166,7 +166,18 @@ namespace NPOIHelper.NPOI.Excel
                                 int colspan = row.Cells[cindex].Colspan;
                                 CellRangeAddress address = new CellRangeAddress(rowIndex, rowIndex, colindex, colindex + colspan - 1);
                                 sheet.AddMergedRegion(address);
-                                footerRow.CreateCell(colindex).SetCellValue(row.Cells[cindex].Value);
+                                if (row.Cells[cindex].CellType == Common.CellTypes.Image)
+                                {
+                                    byte[] imgbyte = Convert.FromBase64String(row.Cells[cindex].Value);
+                                    int pictureIdx = workbook.AddPicture(imgbyte, PictureType.PNG);
+                                    HSSFPatriarch patriarch = (HSSFPatriarch)sheet.CreateDrawingPatriarch();
+                                    HSSFClientAnchor anchor = new HSSFClientAnchor(0, 1, 0, 0, 0, rowIndex, colspan, rowIndex + 1);
+                                    HSSFPicture pict = (HSSFPicture)patriarch.CreatePicture(anchor, pictureIdx);
+                                }
+                                else
+                                {
+                                    footerRow.CreateCell(colindex).SetCellValue(row.Cells[cindex].Value);
+                                }
 
                                 if (row.Cells[cindex].CellStyle != null)
                                 {
@@ -174,7 +185,8 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else
                                 {
-                                    ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], defaultFooterCellStyle);
+                                    if (defaultFooterCellStyle != null)
+                                        ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], defaultFooterCellStyle);
                                     //ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
                                 }
                                 colindex = colindex + colspan;

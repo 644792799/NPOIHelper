@@ -32,6 +32,12 @@ namespace Test
                 headercell.Colspan = table.ColumnCount;
                 headerrow.AddCell(headercell);
 
+                ExcelFooter footer = new ExcelFooter();
+                ExcelRow footerrow = (ExcelRow)table.CreateRow();
+                footerrow.Height = 20;
+                ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
+                //footercell.Value = "xx";
+
                 List<Row> rows = new List<Row>();
                 rows.Add(new ExcelRow());
                 rows.Add(headerrow);
