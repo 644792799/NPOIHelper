@@ -32,17 +32,40 @@ namespace Test
                 headercell.Colspan = table.ColumnCount;
                 headerrow.AddCell(headercell);
 
-                ExcelFooter footer = new ExcelFooter();
-                ExcelRow footerrow = (ExcelRow)table.CreateRow();
-                footerrow.Height = 20;
-                ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
-                //footercell.Value = "xx";
-
                 List<Row> rows = new List<Row>();
                 rows.Add(new ExcelRow());
                 rows.Add(headerrow);
                 header.Rows = rows;
                 table.Header = header;
+
+                ExcelFooter footer = new ExcelFooter();
+                ExcelRow footerrow = (ExcelRow)table.CreateRow();
+                footerrow.Height = 200;
+                ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
+                byte[] b = System.IO.File.ReadAllBytes(@"C:\Users\Administrator\Pictures\36cb750242ff92380bcc787029d59958.gif");
+                footercell.Value = Convert.ToBase64String(b);
+                footercell.Colspan = table.ColumnCount;
+                footercell.CellType = NPOIHelper.NPOI.Common.CellTypes.Image;
+                footerrow.AddCell(footercell);
+
+                ExcelRow footerrow2 = (ExcelRow)table.CreateRow();
+                ExcelCell footercell2 = (ExcelCell)footerrow2.CreateCell();
+                footercell2.Colspan = table.ColumnCount;
+                footercell2.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
+                footercell2.Value = "表格描述信息";
+                footerrow2.AddCell(footercell2);
+
+                footercell2 = (ExcelCell)footerrow2.CreateCell();
+                footercell2.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
+                footercell2.Value = "表格描述信息2";
+                footerrow2.AddCell(footercell2);
+
+                List<Row> footerrows = new List<Row>();
+                footerrows.Add(new ExcelRow());
+                footerrows.Add(footerrow);
+                footerrows.Add(footerrow2);
+                footer.Rows = footerrows;
+                table.Footer = footer;
 
                 for (int r = 0; r < 5; r++)
                 {

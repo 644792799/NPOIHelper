@@ -10,12 +10,33 @@ namespace NPOIHelper.NPOI.Excel
 {
     public class ExcelCell : Cell
     {
-        public ExcelCell() { }
+        /// <summary>
+        /// 单元格批注
+        /// </summary>
+        public string Comments { get; set; }
+
+        public ExcelCell()
+            : base()
+        {
+            CellType = CellTypes.String;
+            Colspan = 1;
+            Rowspan = 1;
+        }
+
         public ExcelCell(dynamic value)
         {
+            Value = value;
+            CellType = CellTypes.String;
+            Colspan = 1;
+            Rowspan = 1;
         }
+
         public ExcelCell(dynamic value, CellTypes cellType)
         {
+            Value = value;
+            CellType = cellType;
+            Colspan = 1;
+            Rowspan = 1;
         }
     }
 }
