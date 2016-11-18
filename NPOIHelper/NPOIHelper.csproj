@@ -31,6 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>CommonLibrary\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>CommonLibrary\NPOI.dll</HintPath>
@@ -58,12 +63,23 @@
     <Compile Include="NPOI\Excel\ExcelTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CommonLibrary\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="CommonLibrary\Microsoft.Office.Interop.Excel.dll" />
     <Content Include="CommonLibrary\NPOI.dll" />
     <Content Include="CommonLibrary\NPOI.OOXML.dll" />
     <Content Include="CommonLibrary\NPOI.OpenXml4Net.dll" />

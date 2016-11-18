@@ -42,7 +42,7 @@ namespace Test
                 ExcelRow footerrow = (ExcelRow)table.CreateRow();
                 footerrow.Height = 200;
                 ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
-                byte[] b = System.IO.File.ReadAllBytes(@"C:\Users\Administrator\Pictures\36cb750242ff92380bcc787029d59958.gif");
+                byte[] b = System.IO.File.ReadAllBytes(@"C:\Users\HRDS-ZENGPEIFENG\Pictures\th2X7ZWG1D.jpg");
                 footercell.Value = Convert.ToBase64String(b);
                 footercell.Colspan = table.ColumnCount;
                 footercell.CellType = NPOIHelper.NPOI.Common.CellTypes.Image;
@@ -106,7 +106,11 @@ namespace Test
             }
             ExcelHelper excelhelper = new ExcelHelper(l);
             MemoryStream s = excelhelper.RenderToXls(false);
-            excelhelper.SaveToFile(s, "d:/test.xls");
+            bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
+            if (issaved)
+            {
+                excelhelper.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1");
+            }
         }
     }
 }

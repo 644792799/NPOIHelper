@@ -1,4 +1,5 @@
-﻿using NPOI.HSSF.UserModel;
+﻿using Microsoft.Office.Interop.Excel;
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOIHelper.NPOI.Abstract;
@@ -8,12 +9,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace NPOIHelper.NPOI.Excel
 {
     public class ExcelHelper
     {
+        /// <summary>
+        /// 报表数据
+        /// </summary>
         public List<ExcelTable> listTable;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="listTable"></param>
         public ExcelHelper(List<ExcelTable> listTable)
         {
             if (listTable == null)
@@ -22,6 +31,11 @@ namespace NPOIHelper.NPOI.Excel
             }
             this.listTable = listTable;
         }
+        /// <summary>
+        /// 渲染到xls
+        /// </summary>
+        /// <param name="isOnlyOneSheet"></param>
+        /// <returns></returns>
         public MemoryStream RenderToXls(bool isOnlyOneSheet = true)
         {
             using (var ms = new MemoryStream())
@@ -38,6 +52,7 @@ namespace NPOIHelper.NPOI.Excel
                     if (rowIndex == 0)
                     {
                         sheet = string.IsNullOrWhiteSpace(table.Title) ? workbook.CreateSheet() as HSSFSheet : workbook.CreateSheet(table.Title) as HSSFSheet;
+                        PrintSetup(sheet);
                         if (table.ColumnWidths != null && table.ColumnWidths.Length == columnCount)
                         {
                             for (var i = 0; i < columnCount; i++)
@@ -203,10 +218,26 @@ namespace NPOIHelper.NPOI.Excel
 
                 workbook.Write(ms);
                 ms.Position = 0;
+
+                workbook.Close();
                 return ms;
             }
         }
-
+        /// <summary>
+        /// 打印设置
+        /// </summary>
+        /// <param name="sheet"></param>
+        private void PrintSetup(HSSFSheet sheet)
+        {
+            sheet.PrintSetup.PaperSize = 9;//A4
+            sheet.PrintSetup.Landscape = false;//横向打印
+        }
+        /// <summary>
+        /// 渲染到xls
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="sheetName"></param>
+        /// <returns></returns>
         public MemoryStream RenderToXls(ExcelTable table, string sheetName)
         {
             using (var ms = new MemoryStream())
@@ -215,7 +246,11 @@ namespace NPOIHelper.NPOI.Excel
                 return null;
             }
         }
-
+        /// <summary>
+        /// 渲染到xlsx
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
         public Stream RenderToXlsx(ExcelTable table)
         {
             //var excel = new ExcelPackage();
@@ -273,7 +308,12 @@ namespace NPOIHelper.NPOI.Excel
             //return excel.Stream;
             return null;
         }
-
+        /// <summary>
+        /// 渲染到xlsx
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="sheetName"></param>
+        /// <returns></returns>
         public MemoryStream RenderToXlsx(ExcelTable table, string sheetName)
         {
             using (var ms = new MemoryStream())
@@ -282,22 +322,78 @@ namespace NPOIHelper.NPOI.Excel
                 return null;
             }
         }
-
-        public void SaveToFile(MemoryStream ms, string fileName)
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public bool SaveToFile(MemoryStream ms, string fileName)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite))
             {
                 var data = ms.GetBuffer();
                 fs.Write(data, 0, data.Length);
                 fs.Flush();
+                fs.Close();
+                return true;
             }
         }
-        public void SaveToFile(Stream ms, string fileName)
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public bool SaveToFile(Stream ms, string fileName)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite))
             {
                 ms.CopyTo(fs);
                 fs.Flush();
+                fs.Close();
+                return true;
+            }
+        }
+        /// <summary>
+        /// 打印excel（需要安装office）
+        /// </summary>
+        /// <param name="strFilePath"></param>
+        /// <param name="strSheetName"></param>
+        public void ExcelPrint(string strFilePath, string strSheetName)
+        {
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
+
+            object oMissing = System.Reflection.Missing.Value;
+            //strFilePath = Server.MapPath(strFilePath);
+            if (!System.IO.File.Exists(strFilePath))
+            {
+                throw new System.IO.FileNotFoundException();
+                return;
+            }
+            try
+            {
+                xlApp.Visible = true;
+                xlWorkbook = xlApp.Workbooks.Add(strFilePath);
+                xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
+                xlWorksheet.PrintPreview(false);
+                xlWorkbook.Close(oMissing, oMissing, oMissing);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (xlApp != null)
+                {
+                    xlApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+                    xlApp = null;
+                }
+                GC.Collect();
             }
         }
     }

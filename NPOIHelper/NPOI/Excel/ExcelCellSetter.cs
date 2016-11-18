@@ -39,6 +39,10 @@ namespace NPOIHelper.NPOI.Excel
             cellStyle.BorderTop = BorderStyle.Thin;
             cellStyle.BorderBottom = BorderStyle.Thin;
             cellStyle.LeftBorderColor = HSSFColor.Black.Index;
+            //水平对齐 
+            cellStyle.Alignment = HorizontalAlignment.Center;
+            //垂直对齐
+            cellStyle.VerticalAlignment = VerticalAlignment.Center;
             return cellStyle;
         }
 
