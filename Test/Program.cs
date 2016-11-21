@@ -19,6 +19,7 @@ namespace Test
             for (int k = 0; k < 4; k++)
             {
                 ExcelTable table = new ExcelTable();
+                table.Landscape = true;
                 table.Title = "疑似黑广播信号出现情况" + (k + 1);
                 table.ColumnCount = 5;
                 int[] columnswidth = new int[table.ColumnCount];
@@ -39,14 +40,14 @@ namespace Test
                 table.Header = header;
 
                 ExcelFooter footer = new ExcelFooter();
-                ExcelRow footerrow = (ExcelRow)table.CreateRow();
-                footerrow.Height = 200;
-                ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
-                byte[] b = System.IO.File.ReadAllBytes(@"C:\Users\HRDS-ZENGPEIFENG\Pictures\th2X7ZWG1D.jpg");
-                footercell.Value = Convert.ToBase64String(b);
-                footercell.Colspan = table.ColumnCount;
-                footercell.CellType = NPOIHelper.NPOI.Common.CellTypes.Image;
-                footerrow.AddCell(footercell);
+                //ExcelRow footerrow = (ExcelRow)table.CreateRow();
+                //footerrow.Height = 200;
+                //ExcelCell footercell = (ExcelCell)footerrow.CreateCell();
+                //byte[] b = System.IO.File.ReadAllBytes(@"C:\Users\HRDS-ZENGPEIFENG\Pictures\th2X7ZWG1D.jpg");
+                //footercell.Value = Convert.ToBase64String(b);
+                //footercell.Colspan = table.ColumnCount;
+                //footercell.CellType = NPOIHelper.NPOI.Common.CellTypes.Image;
+                //footerrow.AddCell(footercell);
 
                 ExcelRow footerrow2 = (ExcelRow)table.CreateRow();
                 ExcelCell footercell2 = (ExcelCell)footerrow2.CreateCell();
@@ -55,14 +56,15 @@ namespace Test
                 footercell2.Value = "表格描述信息";
                 footerrow2.AddCell(footercell2);
 
-                footercell2 = (ExcelCell)footerrow2.CreateCell();
-                footercell2.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
-                footercell2.Value = "表格描述信息2";
-                footerrow2.AddCell(footercell2);
+                //footercell2 = (ExcelCell)footerrow2.CreateCell();
+                //footercell2.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
+                //footercell2.Value = "表格描述信息2";
+                //footerrow2.AddCell(footercell2);
+                footerrow2.HaveRowBreak = true;
 
                 List<Row> footerrows = new List<Row>();
                 footerrows.Add(new ExcelRow());
-                footerrows.Add(footerrow);
+                //footerrows.Add(footerrow);
                 footerrows.Add(footerrow2);
                 footer.Rows = footerrows;
                 table.Footer = footer;
@@ -105,11 +107,11 @@ namespace Test
                 l.Add(table);
             }
             ExcelHelper excelhelper = new ExcelHelper(l);
-            MemoryStream s = excelhelper.RenderToXls(false);
+            MemoryStream s = excelhelper.RenderToXls();
             bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
             if (issaved)
             {
-                excelhelper.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1");
+                //excelhelper.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1");
             }
         }
     }

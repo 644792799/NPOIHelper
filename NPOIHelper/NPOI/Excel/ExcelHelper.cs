@@ -52,12 +52,13 @@ namespace NPOIHelper.NPOI.Excel
                     if (rowIndex == 0)
                     {
                         sheet = string.IsNullOrWhiteSpace(table.Title) ? workbook.CreateSheet() as HSSFSheet : workbook.CreateSheet(table.Title) as HSSFSheet;
-                        PrintSetup(sheet);
+                        PrintSetup(sheet, table.Landscape);
                         if (table.ColumnWidths != null && table.ColumnWidths.Length == columnCount)
                         {
                             for (var i = 0; i < columnCount; i++)
                             {
-                                sheet.SetColumnWidth(i, table.ColumnWidths[i]*256);
+                                sheet.SetColumnWidth(i, (int)(table.ColumnWidths[i] + 0.72)*256);
+                                //sheet.SetColumnWidth(i, table.ColumnWidths[i]*256);
                             }
                         }
                         else
@@ -67,20 +68,22 @@ namespace NPOIHelper.NPOI.Excel
                                 for (var i = 0; i < columnCount; i++)
                                 {
                                     int columnWidth = Encoding.Default.GetBytes(head.Cells[i].Value.ToString()).Length;
-                                    sheet.SetColumnWidth(i, columnWidth*256);
+                                    sheet.SetColumnWidth(i, (int)(columnWidth + 0.72) * 256);
                                 }
                             }
                         }
-                        //标题
-                        if (!string.IsNullOrWhiteSpace(table.Title))
-                        {
-                            IRow rowTitle = sheet.CreateRow(rowIndex++);
-                            rowTitle.Height = short.Parse(table.TitleHeight * 20 + "");
-                            ICell headerCell = rowTitle.CreateCell(0);
-                            headerCell.SetCellValue(table.Title);
-                            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, columnCount - 1));
-                            ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
-                        }
+                    }
+
+                    //标题
+                    if (!string.IsNullOrWhiteSpace(table.Title))
+                    {
+                        IRow rowTitle = sheet.CreateRow(rowIndex);
+                        rowTitle.Height = short.Parse(table.TitleHeight * 20 + "");
+                        ICell headerCell = rowTitle.CreateCell(0);
+                        headerCell.SetCellValue(table.Title);
+                        sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, columnCount - 1));
+                        ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
+                        rowIndex++;
                     }
 
                     //页头
@@ -90,6 +93,10 @@ namespace NPOIHelper.NPOI.Excel
                         {
                             var headerRow = sheet.CreateRow(rowIndex);
                             var row = table.Header.Rows[rindex];
+                            if (row.HaveRowBreak)
+                            {
+                                SetRowBreak(rowIndex, sheet);
+                            }
                             headerRow.Height = short.Parse(row.Height * 20 + "");
                             int colindex = 0;
                             ICellStyle defaultHeaderCellStyle = ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
@@ -146,6 +153,10 @@ namespace NPOIHelper.NPOI.Excel
                     foreach (var row in body)
                     {
                         var dataRow = sheet.CreateRow(rowIndex++);
+                        if (row.HaveRowBreak)
+                        {
+                            SetRowBreak(rowIndex, sheet);
+                        }
                         dataRow.Height = short.Parse(row.Height * 20 + "");
                         ICellStyle defaultcellstyle = ExcelCellSetter.GetDefaultCellStyle(workbook);
                         for (var i = 0; i < columnCount; i++)
@@ -173,6 +184,10 @@ namespace NPOIHelper.NPOI.Excel
                         {
                             var footerRow = sheet.CreateRow(rowIndex);
                             var row = table.Footer.Rows[rindex];
+                            if (row.HaveRowBreak)
+                            {
+                                SetRowBreak(rowIndex, sheet);
+                            }
                             footerRow.Height = short.Parse(row.Height * 20 + "");
                             int colindex = 0;
                             ICellStyle defaultFooterCellStyle = ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
@@ -225,12 +240,32 @@ namespace NPOIHelper.NPOI.Excel
         }
         /// <summary>
         /// 打印设置
+        /// 分辨率是96像素/英寸时，A4纸的尺寸的图像的像素是794×1123
         /// </summary>
         /// <param name="sheet"></param>
-        private void PrintSetup(HSSFSheet sheet)
+        private void PrintSetup(HSSFSheet sheet, bool landscape)
         {
-            sheet.PrintSetup.PaperSize = 9;//A4
-            sheet.PrintSetup.Landscape = false;//横向打印
+            sheet.PrintSetup.PaperSize = (short)9;//A4
+            sheet.PrintSetup.Landscape = landscape;// true 横向打印 false 竖向打印
+            sheet.PrintSetup.Scale = 95;
+            sheet.SetMargin(MarginType.RightMargin, (double)0.1);
+            sheet.SetMargin(MarginType.TopMargin, (double)0.1);
+            sheet.SetMargin(MarginType.LeftMargin, (double)0.1);
+            sheet.SetMargin(MarginType.BottomMargin, (double)0.1);
+
+            sheet.FitToPage = false;
+            //不改变fittopage属性情况下实现打印分页效果设置
+            sheet.PrintSetup.FitHeight = 1;
+            sheet.PrintSetup.FitWidth = 1; // this is the default value
+        }
+        /// <summary>
+        /// 设置打印分页符
+        /// </summary>
+        /// <param name="rowIndex"></param>
+        /// <param name="sheet"></param>
+        private void SetRowBreak(int rowIndex, HSSFSheet sheet)
+        {
+            sheet.SetRowBreak(rowIndex);
         }
         /// <summary>
         /// 渲染到xls
