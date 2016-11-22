@@ -57,7 +57,7 @@ namespace NPOIHelper.NPOI.Excel
                         {
                             for (var i = 0; i < columnCount; i++)
                             {
-                                sheet.SetColumnWidth(i, (int)(table.ColumnWidths[i] + 0.72)*256);
+                                sheet.SetColumnWidth(i, table.ColumnWidths[i]*256 + 200);
                                 //sheet.SetColumnWidth(i, table.ColumnWidths[i]*256);
                             }
                         }
@@ -68,7 +68,7 @@ namespace NPOIHelper.NPOI.Excel
                                 for (var i = 0; i < columnCount; i++)
                                 {
                                     int columnWidth = Encoding.Default.GetBytes(head.Cells[i].Value.ToString()).Length;
-                                    sheet.SetColumnWidth(i, (int)(columnWidth + 0.72) * 256);
+                                    sheet.SetColumnWidth(i, columnWidth * 256 + 200);
                                 }
                             }
                         }

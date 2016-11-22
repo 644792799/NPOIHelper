@@ -101,6 +101,7 @@ namespace NPOIHelper.NPOI.Excel
             cellStyle.Alignment = HorizontalAlignment.Center;
             //垂直对齐
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cellStyle.WrapText = true;
 
             //字体样式
             ifont.FontName = "方正姚体";

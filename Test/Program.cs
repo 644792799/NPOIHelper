@@ -21,7 +21,7 @@ namespace Test
                 ExcelTable table = new ExcelTable();
                 table.Landscape = true;
                 table.Title = "疑似黑广播信号出现情况" + (k + 1);
-                table.ColumnCount = 5;
+                table.ColumnCount = 10;
                 int[] columnswidth = new int[table.ColumnCount];
 
                 ExcelHeader header = new ExcelHeader();
@@ -69,7 +69,7 @@ namespace Test
                 footer.Rows = footerrows;
                 table.Footer = footer;
 
-                for (int r = 0; r < 5; r++)
+                for (int r = 0; r < table.ColumnCount; r++)
                 {
                     ExcelRow row;
                     if (r == 0)
@@ -93,12 +93,19 @@ namespace Test
                         else
                         {
                             cell.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
-                            cell.Value = "行:" + r + " 列:" + i;
+                            if (r == 0)
+                            {
+                                cell.Value = "标题" + i + "\r\n(单位)";
+                            }
+                            else
+                            {
+                                cell.Value = "行:" + r + " 列:" + i;
+                            }
                         }
 
                         //cell.FontColor = HSSFColor.BlueGrey.Index;
                         row.AddCell(cell);
-                        columnswidth[i] = 20;
+                        columnswidth[i] = 12;
                     }
                     table.ColumnWidths = columnswidth;
                     table.AddRow(row);
