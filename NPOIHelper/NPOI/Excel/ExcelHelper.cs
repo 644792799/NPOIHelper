@@ -124,7 +124,7 @@ namespace NPOIHelper.NPOI.Excel
 
                     if (!body.Any())
                     {
-                        throw new Exception("没有需要导出的数据");
+                        //throw new Exception("没有需要导出的数据");
                     }
 
                     //表头
