@@ -11,6 +11,18 @@ NPOIHelper/[Bb]in/
 NPOIHelper/[Oo]bj/
 NPOIHelper/build/
 
+NPOIHelper.Client/[Bb]in/
+NPOIHelper.Client/[Oo]bj/
+
+NPOIHelper.Contract/[Bb]in/
+NPOIHelper.Contract/[Oo]bj/
+
+NPOIHelper.Remoting/[Bb]in/
+NPOIHelper.Remoting/[Oo]bj/
+
+NPOIHelper.WinService/[Bb]in/
+NPOIHelper.WinService/[Oo]bj/
+
 Test/[Bb]in/
 Test/[Oo]bj/
 

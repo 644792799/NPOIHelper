@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB4D71CB-C2CA-40EC-97DA-8B1607402CFC}</ProjectGuid>
+    <ProjectGuid>{5C57D487-C6AB-4DD2-9FE5-2FB2E9B62FCD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NPOIHelper</RootNamespace>
-    <AssemblyName>NPOIHelper</AssemblyName>
+    <RootNamespace>NPOIHelper.Remoting</RootNamespace>
+    <AssemblyName>NPOIHelper.Remoting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,66 +30,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>CommonLibrary\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>CommonLibrary\NPOI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NPOI\Abstract\Cell.cs" />
-    <Compile Include="NPOI\Abstract\Footer.cs" />
-    <Compile Include="NPOI\Abstract\Header.cs" />
-    <Compile Include="NPOI\Abstract\Row.cs" />
-    <Compile Include="NPOI\Abstract\Table.cs" />
-    <Compile Include="NPOI\Common\NPOITypes.cs" />
-    <Compile Include="NPOI\Excel\ExcelCell.cs" />
-    <Compile Include="NPOI\Excel\ExcelCellSetter.cs" />
-    <Compile Include="NPOI\Excel\ExcelFooter.cs" />
-    <Compile Include="NPOI\Excel\ExcelHeader.cs" />
-    <Compile Include="NPOI\Excel\ExcelHelper.cs" />
-    <Compile Include="NPOI\Excel\ExcelRow.cs" />
-    <Compile Include="NPOI\Excel\ExcelTable.cs" />
+    <Compile Include="RemotePrint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <ProjectReference Include="..\NPOIHelper.Contract\NPOIHelper.Contract.csproj">
+      <Project>{8ba6ec65-6ff3-4198-9626-246f789607a4}</Project>
+      <Name>NPOIHelper.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CommonLibrary\ICSharpCode.SharpZipLib.dll" />
     <Content Include="CommonLibrary\Microsoft.Office.Interop.Excel.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CommonLibrary\NPOI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CommonLibrary\NPOI.OOXML.dll" />
-    <Content Include="CommonLibrary\NPOI.OpenXml4Net.dll" />
-    <Content Include="CommonLibrary\NPOI.OpenXmlFormats.dll" />
-    <Content Include="CommonLibrary\NPOI.XML" />
-    <Content Include="CommonLibrary\NPOI_new.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
