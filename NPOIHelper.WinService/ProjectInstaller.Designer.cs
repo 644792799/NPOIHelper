@@ -39,8 +39,8 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "NPOIHelper Web远程打印服务";
-            this.serviceInstaller1.ServiceName = "NPOIPrintService";
+            this.serviceInstaller1.Description = "----";
+            this.serviceInstaller1.ServiceName = "NPOIHelperPrintService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

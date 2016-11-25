@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper", "NPOIHelper\NPOIHelper.csproj", "{EB4D71CB-C2CA-40EC-97DA-8B1607402CFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{3E83B5EC-7EDB-4630-8471-92FE02FCC50F}"
@@ -12,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.Contract", "NPOIHelper.Contract\NPOIHelper.Contract.csproj", "{8BA6EC65-6FF3-4198-9626-246F789607A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.Client", "NPOIHelper.Client\NPOIHelper.Client.csproj", "{BE61EED3-24F0-4D59-BBBC-E261DEF6D60F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.ConsoleService", "NPOIHelper.ConsoleService\NPOIHelper.ConsoleService.csproj", "{C2D48060-49F3-49DA-B294-DB43266AA09B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,10 @@ Global
 		{BE61EED3-24F0-4D59-BBBC-E261DEF6D60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE61EED3-24F0-4D59-BBBC-E261DEF6D60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE61EED3-24F0-4D59-BBBC-E261DEF6D60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

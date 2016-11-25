@@ -1,10 +1,12 @@
 ﻿using NPOI.HSSF.Util;
+using NPOIHelper.Contract;
 using NPOIHelper.NPOI.Abstract;
 using NPOIHelper.NPOI.Excel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -118,6 +120,10 @@ namespace Test
             bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
             if (issaved)
             {
+                IPrint proxy = null;
+                RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
+                proxy = (IPrint)Activator.GetObject(typeof(IPrint), "http://172.39.8.173:1234/Print/PrintURL");
+                proxy.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1", new PrintCallBackHandler());
                 //excelhelper.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1");
             }
         }

@@ -18,7 +18,7 @@ namespace NPOIHelper.Client
             //
             //RemotingConfiguration.Configure("NPOIHelper.Client.exe.config", false);
             RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
-            proxy = (IPrint)Activator.GetObject(typeof(IPrint), "http://localhost:1234/Print/PrintURL");
+            proxy = (IPrint)Activator.GetObject(typeof(IPrint), "http://172.39.8.173:1234/Print/PrintURL");
 
             //message = Console.ReadLine();
             Print();
@@ -26,7 +26,15 @@ namespace NPOIHelper.Client
 
         private static void Print()
         {
-            proxy.ExcelPrint("d:\\aa\\test.xls", "疑似黑广播信号出现情况1", new PrintCallBackHandler());
+            try
+            {
+                proxy.ExcelPrint("d:\\Debug\\疑似黑广播信号出现情况报表.xls", "疑似黑广播信号出现情况(成都站)", new PrintCallBackHandler());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.Read();
+            }
             //proxy.SendMessage(message, new ChatRoomCallBackHandler());
 
             //message = Console.ReadLine();

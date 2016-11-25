@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrintCallBackHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +64,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NPOIHelper.Contract\NPOIHelper.Contract.csproj">
+      <Project>{8ba6ec65-6ff3-4198-9626-246f789607a4}</Project>
+      <Name>NPOIHelper.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NPOIHelper\NPOIHelper.csproj">
       <Project>{eb4d71cb-c2ca-40ec-97da-8b1607402cfc}</Project>
       <Name>NPOIHelper</Name>

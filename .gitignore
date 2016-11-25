@@ -23,6 +23,9 @@ NPOIHelper.Remoting/[Oo]bj/
 NPOIHelper.WinService/[Bb]in/
 NPOIHelper.WinService/[Oo]bj/
 
+NPOIHelper.ConsoleService/[Bb]in/
+NPOIHelper.ConsoleService/[Oo]bj/
+
 Test/[Bb]in/
 Test/[Oo]bj/
 
