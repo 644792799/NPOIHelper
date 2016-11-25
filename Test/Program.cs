@@ -1,5 +1,4 @@
-﻿using NPOI.HSSF.Util;
-using NPOIHelper.Contract;
+﻿using NPOIHelper.Contract;
 using NPOIHelper.NPOI.Abstract;
 using NPOIHelper.NPOI.Excel;
 using System;

@@ -34,11 +34,11 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>CommonLibrary\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <HintPath>..\CommonLibrary\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>CommonLibrary\NPOI.dll</HintPath>
+      <HintPath>..\CommonLibrary\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,20 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CommonLibrary\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="CommonLibrary\Microsoft.Office.Interop.Excel.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CommonLibrary\NPOI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CommonLibrary\NPOI.OOXML.dll" />
-    <Content Include="CommonLibrary\NPOI.OpenXml4Net.dll" />
-    <Content Include="CommonLibrary\NPOI.OpenXmlFormats.dll" />
-    <Content Include="CommonLibrary\NPOI.XML" />
-    <Content Include="CommonLibrary\NPOI_new.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
