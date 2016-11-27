@@ -67,12 +67,6 @@
     <None Include="Uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NPOIHelper.Remoting\NPOIHelper.Remoting.csproj">
-      <Project>{5c57d487-c6ab-4dd2-9fe5-2fb2e9b62fcd}</Project>
-      <Name>NPOIHelper.Remoting</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +74,12 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NPOIHelper.Remoting\NPOIHelper.Remoting.csproj">
+      <Project>{5c57d487-c6ab-4dd2-9fe5-2fb2e9b62fcd}</Project>
+      <Name>NPOIHelper.Remoting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

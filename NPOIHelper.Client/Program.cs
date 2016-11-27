@@ -1,8 +1,12 @@
 ﻿using NPOIHelper.Contract;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,12 +19,15 @@ namespace NPOIHelper.Client
 
         static void Main(string[] args)
         {
-            //
+
             //RemotingConfiguration.Configure("NPOIHelper.Client.exe.config", false);
             RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
-            proxy = (IPrint)Activator.GetObject(typeof(IPrint), "http://172.39.8.173:1234/Print/PrintURL");
+            proxy = (IPrint)Activator.GetObject(typeof(IPrint), "tcp://localhost:1235/Print/PrintURL");
 
             //message = Console.ReadLine();
+
+            //ChannelServices.RegisterChannel(new TcpClientChannel(), true);
+            //proxy = (IPrint)Activator.GetObject(typeof(IPrint), "tcp://localhost:1235/RemotePrint");
             Print();
         }
 
@@ -28,7 +35,7 @@ namespace NPOIHelper.Client
         {
             try
             {
-                proxy.ExcelPrint("d:\\Debug\\疑似黑广播信号出现情况报表.xls", "疑似黑广播信号出现情况(成都站)", new PrintCallBackHandler());
+                proxy.ExcelPrint("d:\\test.xls", "疑似黑广播信号出现情况1", new PrintCallBackHandler());
             }
             catch (Exception ex)
             {
