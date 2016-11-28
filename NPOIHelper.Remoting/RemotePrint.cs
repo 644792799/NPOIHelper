@@ -35,30 +35,30 @@ namespace NPOIHelper.Remoting
                 }
             
                 xlApp.Visible = true;
-                do
-                {
-                    try
-                    {
+                //do
+                //{
+                //    try
+                //    {
                         xlWorkbook = xlApp.Workbooks.Add(strFilePath);
                         xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
                         xlWorksheet.PrintPreview(false);
                         xlWorkbook.Close(oMissing, oMissing, oMissing);
                         retry = false;
-                    }
-                    catch (Exception e)
-                    {
-                        retry = true;
-                    }
-                    finally
-                    {
-                        retryCount++;
-                        if (retryCount > 5)
-                        {
-                            retry = false;
-                            throw new System.Runtime.InteropServices.COMException();
-                        }
-                    }
-                } while (retry);
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        retry = true;
+                //    }
+                //    finally
+                //    {
+                //        retryCount++;
+                //        if (retryCount > 5)
+                //        {
+                //            retry = false;
+                //            throw new System.Runtime.InteropServices.COMException();
+                //        }
+                //    }
+                //} while (retry);
                 callback.PrintSuccess(true);
             }
             catch (Exception ex)
