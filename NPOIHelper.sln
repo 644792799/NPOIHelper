@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.Client", "NPOIHe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.ConsoleService", "NPOIHelper.ConsoleService\NPOIHelper.ConsoleService.csproj", "{C2D48060-49F3-49DA-B294-DB43266AA09B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOIHelper.WFService", "NPOIHelper.WFService\NPOIHelper.WFService.csproj", "{FE1DDCFE-5874-450F-AD47-05110E64064D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2D48060-49F3-49DA-B294-DB43266AA09B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE1DDCFE-5874-450F-AD47-05110E64064D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE1DDCFE-5874-450F-AD47-05110E64064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE1DDCFE-5874-450F-AD47-05110E64064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE1DDCFE-5874-450F-AD47-05110E64064D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

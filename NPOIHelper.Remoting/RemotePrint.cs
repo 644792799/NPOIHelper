@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,24 +15,19 @@ namespace NPOIHelper.Remoting
 
         #region IPrint 成员
 
-        public void ExcelPrint(string strFilePath, string strSheetName, IPrintCallback callback)
+        public void ExcelPrint(string localFilePath, string strSheetName, IPrintCallback callback)
         {
             Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = null;
             Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
-            bool retry = false;
-            int retryCount = 0;
+            object oMissing = System.Reflection.Missing.Value;
+            //bool retry = false;
+            //int retryCount = 0;
             try
             {
-                //string exeFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                //strFilePath = Path.Combine(exeFolder, strFilePath);
-
-                object oMissing = System.Reflection.Missing.Value;
-                //strFilePath = Server.MapPath(strFilePath);
-                if (!System.IO.File.Exists(strFilePath))
+                if (!System.IO.File.Exists(localFilePath))
                 {
                     throw new System.IO.FileNotFoundException();
-                    //return;
                 }
             
                 xlApp.Visible = true;
@@ -39,11 +35,11 @@ namespace NPOIHelper.Remoting
                 //{
                 //    try
                 //    {
-                        xlWorkbook = xlApp.Workbooks.Add(strFilePath);
-                        xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
-                        xlWorksheet.PrintPreview(false);
-                        xlWorkbook.Close(oMissing, oMissing, oMissing);
-                        retry = false;
+                xlWorkbook = xlApp.Workbooks.Add(localFilePath);
+                xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
+                xlWorksheet.PrintPreview(false);
+                //xlWorkbook.Close(oMissing, oMissing, oMissing);
+                //retry = false;
                 //    }
                 //    catch (Exception e)
                 //    {
@@ -68,6 +64,10 @@ namespace NPOIHelper.Remoting
             }
             finally
             {
+                if (xlWorkbook != null)
+                {
+                    xlWorkbook.Close(oMissing, oMissing, oMissing);
+                }
                 if (xlApp != null)
                 {
                     xlApp.Quit();
@@ -79,5 +79,32 @@ namespace NPOIHelper.Remoting
         }
 
         #endregion
+
+
+        public void ExcelPrint(string remoteFilePath, string localPath, string strSheetName, IPrintCallback callback)
+        {
+            string localFilePath = SaveRemoteFileToLocal(remoteFilePath, localPath);
+            ExcelPrint(localFilePath, strSheetName, callback);
+        }
+
+        /// <summary>
+        /// 保存远程文件到本地
+        /// </summary>
+        /// <param name="remoteFilePath"></param>
+        /// <param name="localPath"></param>
+        /// <returns>localPath</returns>
+        private string SaveRemoteFileToLocal(string remoteFilePath, string localPath)
+        {
+            localPath = localPath.EndsWith("/") || localPath.EndsWith("\\") ? localPath : localPath + "/";
+            string localFilePath = localPath + System.IO.Path.GetFileName(remoteFilePath);
+            if (!Directory.Exists(localPath))
+            {
+                Directory.CreateDirectory(localPath);
+            }
+            WebClient client = new WebClient();
+            client.DownloadFile(@remoteFilePath, localFilePath);
+
+            return localFilePath;
+        }
     }
 }
