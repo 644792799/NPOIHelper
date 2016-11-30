@@ -189,7 +189,17 @@ namespace NPOIHelper.NPOI.Excel
 
         public static ICellStyle GetDefaultFooterCellStyle(IWorkbook workbook)
         {
-            return null;
+            ICellStyle cellStyle = GetDefaultCellStyle(workbook);
+            //边框  
+            cellStyle.BorderLeft = BorderStyle.None;
+            cellStyle.BorderRight = BorderStyle.None;
+            cellStyle.BorderTop = BorderStyle.None;
+            cellStyle.BorderBottom = BorderStyle.None;
+            //水平对齐 
+            cellStyle.Alignment = HorizontalAlignment.Center;
+            //垂直对齐
+            cellStyle.VerticalAlignment = VerticalAlignment.Center;
+            return cellStyle;
         }
 
         /// <summary>

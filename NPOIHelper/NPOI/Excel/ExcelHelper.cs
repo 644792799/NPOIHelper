@@ -188,7 +188,8 @@ namespace NPOIHelper.NPOI.Excel
                             {
                                 SetRowBreak(rowIndex, sheet);
                             }
-                            footerRow.Height = short.Parse(row.Height * 20 + "");
+                            //1 px = 0.75 point
+                            footerRow.Height = short.Parse(row.Height * 0.75 * 20 + "");
                             int colindex = 0;
                             ICellStyle defaultFooterCellStyle = ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
@@ -198,11 +199,15 @@ namespace NPOIHelper.NPOI.Excel
                                 sheet.AddMergedRegion(address);
                                 if (row.Cells[cindex].CellType == Common.CellTypes.Image)
                                 {
+                                    footerRow.CreateCell(colindex);
                                     byte[] imgbyte = Convert.FromBase64String(row.Cells[cindex].Value);
                                     int pictureIdx = workbook.AddPicture(imgbyte, PictureType.PNG);
                                     HSSFPatriarch patriarch = (HSSFPatriarch)sheet.CreateDrawingPatriarch();
                                     HSSFClientAnchor anchor = new HSSFClientAnchor(0, 1, 0, 0, 0, rowIndex, colspan, rowIndex + 1);
+                                    anchor.AnchorType = AnchorType.DontMoveAndResize;
                                     HSSFPicture pict = (HSSFPicture)patriarch.CreatePicture(anchor, pictureIdx);
+                                    pict.Resize(0.99, 0.99);
+                                    //pict.Resize();
                                 }
                                 else
                                 {
@@ -252,6 +257,7 @@ namespace NPOIHelper.NPOI.Excel
             sheet.SetMargin(MarginType.TopMargin, (double)0.1);
             sheet.SetMargin(MarginType.LeftMargin, (double)0.1);
             sheet.SetMargin(MarginType.BottomMargin, (double)0.1);
+            sheet.HorizontallyCenter = true;
 
             sheet.FitToPage = false;
             //不改变fittopage属性情况下实现打印分页效果设置

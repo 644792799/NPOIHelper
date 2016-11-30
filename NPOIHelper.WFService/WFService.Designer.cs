@@ -77,7 +77,7 @@
             this.panel1.ForeColor = System.Drawing.Color.Lime;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(583, 126);
+            this.panel1.Size = new System.Drawing.Size(250, 108);
             this.panel1.TabIndex = 1;
             // 
             // lstBxMessage
@@ -91,7 +91,7 @@
             this.lstBxMessage.Location = new System.Drawing.Point(0, 0);
             this.lstBxMessage.Name = "lstBxMessage";
             this.lstBxMessage.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lstBxMessage.Size = new System.Drawing.Size(583, 126);
+            this.lstBxMessage.Size = new System.Drawing.Size(250, 108);
             this.lstBxMessage.TabIndex = 0;
             this.lstBxMessage.TabStop = false;
             // 
@@ -99,7 +99,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 126);
+            this.ClientSize = new System.Drawing.Size(250, 108);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

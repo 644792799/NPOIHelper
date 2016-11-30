@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Http;
+using System.Runtime.Remoting.Channels.Tcp;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,9 +25,29 @@ namespace NPOIHelper.WFService
         {
             RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
             ;
-            lstBxMessage.Items.Add("服务开启中......");
-            var channels = ChannelServices.RegisteredChannels[0];
-            lstBxMessage.Items.Add(RemotingConfiguration.GetRegisteredWellKnownServiceTypes()[0].ToString());
+            lstBxMessage.Items.Add("下列服务开启中......");
+            IChannel[] channels = ChannelServices.RegisteredChannels;
+            foreach (var channel in channels)
+            {
+                if (channel is TcpChannel)
+                {
+                    TcpChannel tcpchannel = (TcpChannel)channel;
+                    ChannelDataStore datastore = (ChannelDataStore)tcpchannel.ChannelData;
+                    foreach (var uri in datastore.ChannelUris)
+                    {
+                        lstBxMessage.Items.Add(uri);
+                    }
+                }
+                else
+                {
+                    HttpChannel httpchannel = (HttpChannel)channel;
+                    ChannelDataStore datastore = (ChannelDataStore)httpchannel.ChannelData;
+                    foreach (var uri in datastore.ChannelUris)
+                    {
+                        lstBxMessage.Items.Add(uri);
+                    }
+                }
+            }
         }
 
         private void WFService_Resize(object sender, EventArgs e)
