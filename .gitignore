@@ -28,9 +28,12 @@ NPOIHelper.ConsoleService/[Oo]bj/
 
 NPOIHelper.WFService/[Bb]in/
 NPOIHelper.WFService/[Oo]bj/
+NPOIHelper.WFService/发布/
+NPOIHelper.WFService/*.pfx
 
 Test/[Bb]in/
 Test/[Oo]bj/
 
 #other
 packages/
+Setup/
