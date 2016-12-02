@@ -16,3 +16,10 @@ Microsoft Office Excel 不能访问文件“a.xls”。 可能的原因有:
 解决方案：
  
 C:\Windows\System32\config\systemprofile和C:\Windows\SysWOW64\config\systemprofile目录下创建名为Desktop目录即可解决问题。
+
+
+NPAPI是当今最流行的插件架构，由网景开发，后Mozilla维护，几乎所有浏览器都支持，不过存在很大的安全隐患，插件可以窃取系统底层权限，发起恶意攻击。
+
+2010年，Google在原有网景NPAPI(Netscape Plugin API)基础上开发了新的PPAPI(Pepper Plugin API)，将外挂插件全部放到沙盒里运行，2012年Windows、Mac版本的Chrome浏览器先后升级了PPAPI Flash Player，并希望今年底值钱彻底淘汰NPAPI。
+
+PPAPI的flash相较于NPAPI来讲，内存占用更大，因为全在沙盒里面运行
