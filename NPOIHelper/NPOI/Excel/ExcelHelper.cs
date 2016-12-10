@@ -1,5 +1,4 @@
-﻿using Microsoft.Office.Interop.Excel;
-using NPOI.HSSF.UserModel;
+﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOIHelper.NPOI.Abstract;
@@ -403,39 +402,39 @@ namespace NPOIHelper.NPOI.Excel
         /// <param name="strSheetName"></param>
         public void ExcelPrint(string strFilePath, string strSheetName)
         {
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook;
-            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
+            //Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            //Microsoft.Office.Interop.Excel.Workbook xlWorkbook;
+            //Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
 
-            object oMissing = System.Reflection.Missing.Value;
-            //strFilePath = Server.MapPath(strFilePath);
-            if (!System.IO.File.Exists(strFilePath))
-            {
-                throw new System.IO.FileNotFoundException();
-                return;
-            }
-            try
-            {
-                xlApp.Visible = true;
-                xlWorkbook = xlApp.Workbooks.Add(strFilePath);
-                xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
-                xlWorksheet.PrintPreview(false);
-                xlWorkbook.Close(oMissing, oMissing, oMissing);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (xlApp != null)
-                {
-                    xlApp.Quit();
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
-                    xlApp = null;
-                }
-                GC.Collect();
-            }
+            //object oMissing = System.Reflection.Missing.Value;
+            ////strFilePath = Server.MapPath(strFilePath);
+            //if (!System.IO.File.Exists(strFilePath))
+            //{
+            //    throw new System.IO.FileNotFoundException();
+            //    return;
+            //}
+            //try
+            //{
+            //    xlApp.Visible = true;
+            //    xlWorkbook = xlApp.Workbooks.Add(strFilePath);
+            //    xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[strSheetName];
+            //    xlWorksheet.PrintPreview(false);
+            //    xlWorkbook.Close(oMissing, oMissing, oMissing);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+            //finally
+            //{
+            //    if (xlApp != null)
+            //    {
+            //        xlApp.Quit();
+            //        System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+            //        xlApp = null;
+            //    }
+            //    GC.Collect();
+            //}
         }
     }
 }
