@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -48,6 +49,7 @@
     <Compile Include="NPOI\Abstract\Header.cs" />
     <Compile Include="NPOI\Abstract\Row.cs" />
     <Compile Include="NPOI\Abstract\Table.cs" />
+    <Compile Include="NPOI\Common\CommonConst.cs" />
     <Compile Include="NPOI\Common\NPOITypes.cs" />
     <Compile Include="NPOI\Excel\ExcelCell.cs" />
     <Compile Include="NPOI\Excel\ExcelCellSetter.cs" />

@@ -8,12 +8,14 @@ namespace NPOIHelper.NPOI.Common
 {
     public class CommonConst
     {
-        public const string[] STANDARD_STYLE_PROPERTIES = 
+        public static readonly string[] STANDARD_STYLE_PROPERTIES = 
         { 
+            "border",
             "border-top", 
             "border-right", 
             "border-bottom", 
             "border-left" ,
+            "border-color",
             "border-top-color",
             "border-right-color",
             "border-bottom-color",
@@ -23,9 +25,19 @@ namespace NPOIHelper.NPOI.Common
             "border-diagonal-color",
             "border-diagonal-lines-tyle",
             "color",
+            "pattern",
             "data-format",
             "vertical-align",
-            "text-align"
+            "text-align",
+            "wraptext",
+            "font-weight",
+            "font-color",
+            "font-size",
+            "font-name",
+            "font-underline",
+            "font-isitalic",
+            "font-isstrikeout",
+            "font-typeoffset"
         };
     }
 }
