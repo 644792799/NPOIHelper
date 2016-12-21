@@ -34,6 +34,10 @@ namespace NPOIHelper.NPOI.Abstract
             }
         }
         /// <summary>
+        /// 单元格样式CSS字符串表示
+        /// </summary>
+        public string Style { get; set; }
+        /// <summary>
         /// 跨列
         /// </summary>
         public int Colspan { get; set; }

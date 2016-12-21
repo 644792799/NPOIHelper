@@ -57,7 +57,6 @@ namespace NPOIHelper.NPOI.Excel
                             for (var i = 0; i < columnCount; i++)
                             {
                                 sheet.SetColumnWidth(i, table.ColumnWidths[i]*256 + 200);
-                                //sheet.SetColumnWidth(i, table.ColumnWidths[i]*256);
                             }
                         }
                         else
@@ -81,7 +80,9 @@ namespace NPOIHelper.NPOI.Excel
                         ICell headerCell = rowTitle.CreateCell(0);
                         headerCell.SetCellValue(table.Title);
                         sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, columnCount - 1));
-                        ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
+                        var defaultTitleCellStyle = workbook.GetDefaultTitleCellStyle();
+                        headerCell.Style(defaultTitleCellStyle);
+                        //ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
                         rowIndex++;
                     }
 
@@ -98,7 +99,7 @@ namespace NPOIHelper.NPOI.Excel
                             }
                             headerRow.Height = short.Parse(row.Height * 20 + "");
                             int colindex = 0;
-                            ICellStyle defaultHeaderCellStyle = ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
+                            ICellStyle defaultHeaderCellStyle = workbook.GetDefaultHeaderCellStyle();//ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
                             {
                                 int colspan = row.Cells[cindex].Colspan;
@@ -108,12 +109,17 @@ namespace NPOIHelper.NPOI.Excel
 
                                 if (row.Cells[cindex].CellStyle != null)
                                 {
-                                    ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                    headerRow.Cells[colindex].Style(row.Cells[cindex].CellStyle);
+                                    //ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                }
+                                else if (row.Cells[cindex].Style != null)
+                                {
+                                    headerRow.Cells[colindex].Style(row.Cells[cindex].Style);
                                 }
                                 else
                                 {
-                                    ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], defaultHeaderCellStyle);
-                                    //ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+                                    headerRow.Cells[colindex].Style(defaultHeaderCellStyle);
+                                    //ExcelCellSetter.SetCellStyle(headerRow.Cells[colindex], defaultHeaderCellStyle);
                                 }
                                 colindex = colindex + colspan;
                             }
@@ -143,7 +149,6 @@ namespace NPOIHelper.NPOI.Excel
                             else
                             {
                                 ExcelCellSetter.SetCellStyle(headerRow.Cells[i], defaultTableHeaderCellStyle);
-                                //ExcelCellSetter.SetDefaultTableHeaderCellStyle(workbook, headerRow.Cells[i]);
                             }
                         }
                     }
@@ -157,7 +162,7 @@ namespace NPOIHelper.NPOI.Excel
                             SetRowBreak(rowIndex, sheet);
                         }
                         dataRow.Height = short.Parse(row.Height * 20 + "");
-                        ICellStyle defaultcellstyle = ExcelCellSetter.GetDefaultCellStyle(workbook);
+                        ICellStyle defaultcellstyle = workbook.GetDefaultCellStyle();//ExcelCellSetter.GetDefaultCellStyle(workbook);
                         for (var i = 0; i < columnCount; i++)
                         {
                             ExcelCell cell = (ExcelCell)row.Cells[i];
@@ -165,12 +170,17 @@ namespace NPOIHelper.NPOI.Excel
                             dataRow.CreateCell(i, (CellType)cell.CellType).SetCellValue(cellval);
                             if (cell.CellStyle != null)
                             {
-                                ExcelCellSetter.SetCellStyle(dataRow.Cells[i], cell.CellStyle);
+                                dataRow.Cells[i].Style(cell.CellStyle);
+                                //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], cell.CellStyle);
+                            }
+                            else if (cell.Style != null)
+                            {
+                                dataRow.Cells[i].Style(cell.Style);
                             }
                             else
                             {
-                                //ExcelCellSetter.SetDefaultCellStyle(workbook, dataRow.Cells[i]);
-                                ExcelCellSetter.SetCellStyle(dataRow.Cells[i], defaultcellstyle);
+                                dataRow.Cells[i].Style(defaultcellstyle);
+                                //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], defaultcellstyle);
                             }
                         }
                     }
@@ -190,7 +200,7 @@ namespace NPOIHelper.NPOI.Excel
                             //1 px = 0.75 point
                             footerRow.Height = short.Parse(row.Height * 0.75 * 20 + "");
                             int colindex = 0;
-                            ICellStyle defaultFooterCellStyle = ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
+                            ICellStyle defaultFooterCellStyle = workbook.GetDefaultFooterCellStyle();//ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
                             {
                                 int colspan = row.Cells[cindex].Colspan;
@@ -215,13 +225,18 @@ namespace NPOIHelper.NPOI.Excel
 
                                 if (row.Cells[cindex].CellStyle != null)
                                 {
-                                    ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                    footerRow.Cells[colindex].Style(row.Cells[cindex].CellStyle);
+                                    //ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], row.Cells[cindex].CellStyle);
+                                }
+                                else if (row.Cells[cindex].Style != null)
+                                {
+                                    footerRow.Cells[colindex].Style(row.Cells[cindex].Style);
                                 }
                                 else
                                 {
-                                    if (defaultFooterCellStyle != null)
-                                        ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], defaultFooterCellStyle);
-                                    //ExcelCellSetter.SetDefaultHeaderCellStyle(workbook, headerRow.Cells[colindex]);
+                                    footerRow.Cells[colindex].Style(defaultFooterCellStyle);
+                                    //if (defaultFooterCellStyle != null)
+                                        //ExcelCellSetter.SetCellStyle(footerRow.Cells[colindex], defaultFooterCellStyle);
                                 }
                                 colindex = colindex + colspan;
                             }

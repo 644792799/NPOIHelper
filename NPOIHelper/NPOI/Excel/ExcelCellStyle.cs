@@ -35,10 +35,37 @@ namespace NPOIHelper.NPOI.Excel
         const string DEFAULT_HEADER_CELLSTYLE = "border:none;text-align:left;vertical-align:center;wraptext:true;font-name:宋体;font-size:10;font-weight:normal;font-color:GREY_40_PERCENT;";
         const string DEFAULT_TABLE_HEADER_CELLSTYLE = "border:thin;text-align:center;vertical-align:center;pattern:SolidForeground;color:Grey25Percent;wraptext:true;font-name:方正姚体;font-size:12;font-weight:bold;font-color:black;";
         const string DEFAULT_TABLE_BODY_CELLSTYLE = "border:thin;text-align:center;vertical-align:center;font-name:宋体;font-size:9;font-weight:normal;font-color:GREY_50_PERCENT;";
-        const string DEFAULT_TABLE_FOOTER_CELLSTYLE = "";
+        const string DEFAULT_TABLE_FOOTER_CELLSTYLE = "border:thin;text-align:center;vertical-align:center;font-name:宋体;font-size:9;font-weight:normal;font-color:GREY_50_PERCENT;";
         const string DEFAULT_FOOTER_CELLSTYLE = "border:none;text-align:center;vertical-align:center;font-name:宋体;font-size:9;font-weight:normal;font-color:GREY_50_PERCENT;";
-        
-        private static ICellStyle defaultHeaderCellStyle;
+
+        /// <summary>
+        /// 用户自定义获取样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static ICellStyle GetUserDirCellStyle(this IWorkbook workbook, string style)
+        {
+            return GetCellStyle(workbook, style);
+        }
+        /// <summary>
+        /// 获取默认样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_CELLSTYLE);
+        }
+        /// <summary>
+        /// 获取默认标题样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultTitleCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_TITLE_CELLSTYLE);
+        }
         /// <summary>
         /// 获取默认页头样式
         /// </summary>
@@ -46,12 +73,43 @@ namespace NPOIHelper.NPOI.Excel
         /// <returns></returns>
         public static ICellStyle GetDefaultHeaderCellStyle(this IWorkbook workbook)
         {
-            if (defaultHeaderCellStyle == null)
-            {
-                defaultHeaderCellStyle = workbook.CreateCellStyle();
-                defaultHeaderCellStyle.AttachStyleToCellStyle(workbook, DEFAULT_HEADER_CELLSTYLE);
-            }
-            return defaultHeaderCellStyle;
+            return GetCellStyle(workbook, DEFAULT_HEADER_CELLSTYLE);
+        }
+        /// <summary>
+        /// 获取默认表头样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultTableHeaderCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_TABLE_HEADER_CELLSTYLE);
+        }
+        /// <summary>
+        /// 获取默认表体样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultTableBodyCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_TABLE_BODY_CELLSTYLE);
+        }
+        /// <summary>
+        /// 获取默认表尾样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultTableFooterCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_TABLE_FOOTER_CELLSTYLE);
+        }
+        /// <summary>
+        /// 获取默认页尾样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static ICellStyle GetDefaultFooterCellStyle(this IWorkbook workbook)
+        {
+            return GetCellStyle(workbook, DEFAULT_FOOTER_CELLSTYLE);
         }
         /// <summary>
         /// 属性font-前缀的属性转IFont
@@ -92,6 +150,15 @@ namespace NPOIHelper.NPOI.Excel
             }
             cellstyle.AttachStyleToCellStyle(workbook, style);
             cell.CellStyle = cellstyle;
+        }
+        /// <summary>
+        /// 将现有的单元格样式添加到单元格中
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="style"></param>
+        public static void Style(this ICell cell, ICellStyle style)
+        {
+            cell.CellStyle = style;
         }
         /// <summary>
         /// CSS格式属性赋值给单元格样式
@@ -224,6 +291,18 @@ namespace NPOIHelper.NPOI.Excel
                 return htmlcolor.ToUpper().ConvertToColor();
             }
         }
+        /// <summary>
+        /// 获取单元格样式
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        private static ICellStyle GetCellStyle(IWorkbook workbook, string style)
+        {
+            ICellStyle cellStyle = workbook.CreateCellStyle();
+            cellStyle.AttachStyleToCellStyle(workbook, style);
+            return cellStyle;
+        }
         #endregion
 
         #region 字符串扩展
@@ -254,7 +333,7 @@ namespace NPOIHelper.NPOI.Excel
         }
         public static short ConvertToColor(this string v)
         {
-            switch (v)
+            switch (v.ToUpper())
             {
                 case "AQUA":
                     return 49;
@@ -634,7 +713,7 @@ namespace NPOIHelper.NPOI.Excel
         public static void FontWeight(this Dictionary<string, string> fontdic, IFont font)
         {
             string fontweight = GetDicValue(fontdic, "font-weight");
-            switch (fontweight)
+            switch (fontweight.ToUpper())
             {
                 case "NORMAL":
                     font.Boldweight = 400;

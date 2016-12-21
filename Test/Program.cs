@@ -90,6 +90,7 @@ namespace Test
                         {
                             cell.CellType = NPOIHelper.NPOI.Common.CellTypes.Numeric;
                             cell.Value = r * i;
+                            cell.Style = "border:thin;font-color:red;font-weight:normal;text-align:left;";
                         }
                         else
                         {
@@ -115,7 +116,7 @@ namespace Test
                 l.Add(table);
             }
             ExcelHelper excelhelper = new ExcelHelper(l);
-            MemoryStream s = excelhelper.RenderToXls();
+            MemoryStream s = excelhelper.RenderToXls(false);
             bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
             if (issaved)
             {
