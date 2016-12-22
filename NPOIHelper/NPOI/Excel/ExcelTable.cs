@@ -28,25 +28,5 @@ namespace NPOIHelper.NPOI.Excel
         {
             Rows.Add(row);
         }
-
-        public override void AddRow(int rowIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void DeleteRow(int rowIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void DeleteRows(int fromRowIndex, int toRowIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExportToExcel()
-        {
-
-        }
     }
 }

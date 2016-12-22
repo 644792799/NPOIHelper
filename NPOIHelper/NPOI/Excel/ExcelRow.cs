@@ -24,20 +24,5 @@ namespace NPOIHelper.NPOI.Excel
         {
             Cells.Add(cell);
         }
-
-        public override void AddCell(int columnIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void DeleteCell(int columnIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void DeleteCells(int fromColumnIndex, int toColumnIndex)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

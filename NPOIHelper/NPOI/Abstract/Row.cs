@@ -40,8 +40,5 @@ namespace NPOIHelper.NPOI.Abstract
         /// <returns></returns>
         abstract public Cell CreateCell();
         abstract public void AddCell(Cell cell);
-        abstract public void AddCell(int columnIndex);
-        abstract public void DeleteCell(int columnIndex);
-        abstract public void DeleteCells(int fromColumnIndex, int toColumnIndex);
     }
 }

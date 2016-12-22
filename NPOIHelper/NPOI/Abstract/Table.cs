@@ -6,10 +6,25 @@ using System.Threading.Tasks;
 
 namespace NPOIHelper.NPOI.Abstract
 {
+    /// <summary>
+    ///  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ///  ┃                        TITLE                            ┃
+    ///  ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+    ///  ┃                        HEADER                           ┃
+    ///  ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+    ///  ┃    ┃    ┃    ┃    ┃TABLE HEADER┃    ┃    ┃    ┃    ┃    ┃
+    ///  ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━━━━━━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫
+    ///  ┃    ┃    ┃    ┃    ┃TABLE   BODY┃    ┃    ┃    ┃    ┃    ┃
+    ///  ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━━━━━━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫
+    ///  ┃    ┃    ┃    ┃    ┃TABLE   BODY┃    ┃    ┃    ┃    ┃    ┃
+    ///  ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━━━━━━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫
+    ///  ┃    ┃    ┃    ┃    ┃TABLE FOOTER┃    ┃    ┃    ┃    ┃    ┃
+    ///  ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+    ///  ┃                        FOOTER                           ┃
+    ///  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    /// </summary>
     public abstract class Table
     {
-        const int A4_WIDTH = 794;
-        const int A4_HEIGHT = 1123;
         /// <summary>
         /// 是否横向打印
         /// </summary>
@@ -32,26 +47,6 @@ namespace NPOIHelper.NPOI.Abstract
             }
             set
             {
-                //if (value == null)
-                //{
-                //    this.columnWidths = value;
-                //    return;
-                //}
-                //List<int> list = value.ToList();
-                //if (Landscape)
-                //{
-                //    for (int i = 0; i < value.Length; i++)
-                //    {
-                //        value[i] = value[i] * A4_HEIGHT / 100;
-                //    }
-                //}
-                //else
-                //{
-                //    for (int i = 0; i < value.Length; i++)
-                //    {
-                //        value[i] = value[i] * A4_WIDTH / 100;
-                //    }
-                //}
                 this.columnWidths = value;
             }
         }
@@ -66,9 +61,9 @@ namespace NPOIHelper.NPOI.Abstract
 
         abstract public Row CreateRow(bool isHeader);
         abstract public void AddRow(Row row);
-        abstract public void AddRow(int rowIndex);
-        abstract public void DeleteRow(int rowIndex);
-        abstract public void DeleteRows(int fromRowIndex, int toRowIndex);
+        //abstract public void AddRow(int rowIndex);
+        //abstract public void DeleteRow(int rowIndex);
+        //abstract public void DeleteRows(int fromRowIndex, int toRowIndex);
 
     }
 }

@@ -116,14 +116,14 @@ namespace Test
                 l.Add(table);
             }
             ExcelHelper excelhelper = new ExcelHelper(l);
-            MemoryStream s = excelhelper.RenderToXls(false);
+            MemoryStream s = excelhelper.RenderToXls();
             bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
             if (issaved)
             {
-                //IPrint proxy = null;
-                //RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
-                //proxy = (IPrint)Activator.GetObject(typeof(IPrint), "http://172.39.8.173:1234/Print/PrintURL");
-                //proxy.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1", new PrintCallBackHandler());
+                IPrint proxy = null;
+                RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
+                proxy = (IPrint)Activator.GetObject(typeof(IPrint), "tcp://172.39.8.173:1235/Print/PrintURL");
+                proxy.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1", new PrintCallBackHandler());
 
                 //excelhelper.ExcelPrint("d:/test.xls", "疑似黑广播信号出现情况1");
             }

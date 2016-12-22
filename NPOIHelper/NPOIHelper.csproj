@@ -49,6 +49,10 @@
     <Compile Include="NPOI\Abstract\Header.cs" />
     <Compile Include="NPOI\Abstract\Row.cs" />
     <Compile Include="NPOI\Abstract\Table.cs" />
+    <Compile Include="NPOI\Abstract\TableBody.cs" />
+    <Compile Include="NPOI\Abstract\TableFooter.cs" />
+    <Compile Include="NPOI\Abstract\TableHeader.cs" />
+    <Compile Include="NPOI\Abstract\Title.cs" />
     <Compile Include="NPOI\Common\CommonConst.cs" />
     <Compile Include="NPOI\Common\NPOITypes.cs" />
     <Compile Include="NPOI\Excel\ExcelCell.cs" />
@@ -59,6 +63,10 @@
     <Compile Include="NPOI\Excel\ExcelHelper.cs" />
     <Compile Include="NPOI\Excel\ExcelRow.cs" />
     <Compile Include="NPOI\Excel\ExcelTable.cs" />
+    <Compile Include="NPOI\Excel\ExcelTableBody.cs" />
+    <Compile Include="NPOI\Excel\ExcelTableFooter.cs" />
+    <Compile Include="NPOI\Excel\ExcelTableHeader.cs" />
+    <Compile Include="NPOI\Excel\ExcelTitle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
