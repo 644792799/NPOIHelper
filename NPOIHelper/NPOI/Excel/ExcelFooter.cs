@@ -14,5 +14,10 @@ namespace NPOIHelper.NPOI.Excel
         {
 
         }
+
+        public override void AddRow(Row row)
+        {
+            Rows.Add(row);
+        }
     }
 }

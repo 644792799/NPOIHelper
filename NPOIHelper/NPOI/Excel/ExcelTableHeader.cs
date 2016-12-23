@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NPOIHelper.NPOI.Excel
 {
-    public class ExcelTableHeader: TableFooter
+    public class ExcelTableHeader: TableHeader
     {
         public ExcelTableHeader() : base() { }
 

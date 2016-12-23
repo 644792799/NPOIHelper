@@ -121,7 +121,7 @@ namespace NPOIHelper.NPOI.Excel
         {
             IFont font = workbook.CreateFont();
             fontDic.FontWeight(font);
-            fontDic.FontColor(font);
+            fontDic.FontColor(workbook, font);
             fontDic.FontItalic(font);
             fontDic.FontName(font);
             fontDic.FontSize(font);
@@ -275,14 +275,15 @@ namespace NPOIHelper.NPOI.Excel
         /// <returns></returns>
         private static short GetXLColor(HSSFWorkbook workbook, string htmlcolor)
         {
-            HSSFPalette XlPalette = workbook.GetCustomPalette();
             if (htmlcolor.StartsWith("#"))
             {
+                HSSFPalette XlPalette = workbook.GetCustomPalette();
                 System.Drawing.Color color = System.Drawing.ColorTranslator.FromHtml(htmlcolor);
                 HSSFColor hssfcolor = XlPalette.FindColor(color.R, color.G, color.B);
                 if (hssfcolor == null)
                 {
-                    hssfcolor = XlPalette.AddColor(color.R, color.G, color.B);
+                    XlPalette.SetColorAtIndex(HSSFColor.Lavender.Index, color.R, color.G, color.B);
+                    hssfcolor = XlPalette.GetColor(HSSFColor.Lavender.Index);//XlPalette.AddColor(color.R, color.G, color.B);
                 }
                 return hssfcolor.Indexed;
             }
@@ -745,12 +746,12 @@ namespace NPOIHelper.NPOI.Excel
             }
         }
 
-        public static void FontColor(this Dictionary<string, string> fontdic, IFont font)
+        public static void FontColor(this Dictionary<string, string> fontdic, IWorkbook workbook, IFont font)
         {
             string fontcolor = GetDicValue(fontdic, "font-color");
             if (fontcolor != null)
             {
-                font.Color = fontcolor.ConvertToColor();
+                font.Color = GetXLColor((HSSFWorkbook)workbook, fontcolor);//fontcolor.ConvertToColor();
             }
         }
 

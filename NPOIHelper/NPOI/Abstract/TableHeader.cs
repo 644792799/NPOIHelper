@@ -14,11 +14,11 @@ namespace NPOIHelper.NPOI.Abstract
         }
         public IList<Row> Rows { get; set; }
 
-        private string defaultTableHeaderCellStyle;
-        public string DefaultTableHeaderCellStyle
+        public string DefaultTableHeaderCellStyle { get; set; }
+
+        public bool IsNull()
         {
-            get { return defaultTableHeaderCellStyle; }
-            set { defaultTableHeaderCellStyle = value; }
+            return Rows.Count() == 0 ? true : false;
         }
 
         abstract public void AddRow(Row row);

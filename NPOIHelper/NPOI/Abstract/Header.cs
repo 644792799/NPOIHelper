@@ -12,6 +12,16 @@ namespace NPOIHelper.NPOI.Abstract
         {
             Rows = new List<Row>();
         }
+
         public IList<Row> Rows { get; set; }
+
+        public string DefaultHeaderCellStyle { get; set; }
+
+        public bool IsNull()
+        {
+            return Rows.Count() == 0 ? true : false;
+        }
+
+        abstract public void AddRow(Row row);
     }
 }

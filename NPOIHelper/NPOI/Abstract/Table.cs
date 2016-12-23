@@ -29,41 +29,19 @@ namespace NPOIHelper.NPOI.Abstract
         /// 是否横向打印
         /// </summary>
         public bool Landscape { get; set; }
+        public Title Title { get; set; }
         public Header Header { get; set; }
-        public string Title { get; set; }
-        private short titleHeight = 30;
-        public short TitleHeight {
-            get { return titleHeight; }
-            set { this.titleHeight = value; } 
-        }
-        public IList<Row> Rows { get; set; }
-        public int ColumnCount { get; set; }
-        public int[] columnWidths;
-        public int[] ColumnWidths
-        {
-            get
-            {
-                return columnWidths;
-            }
-            set
-            {
-                this.columnWidths = value;
-            }
-        }
+        public TableHeader TableHeader { get; set; }
+        public TableBody TableBody { get; set; }
+        public TableFooter TableFooter { get; set; }
         //public IList<string> Columns { get; set; }
         public Footer Footer { get; set; }
-
+        public int ColumnCount { get; set; }
+        public int[] ColumnWidths { get; set; }
         public Table()
         {
-            Rows = new List<Row>();
             Landscape = false;
         }
-
-        abstract public Row CreateRow(bool isHeader);
-        abstract public void AddRow(Row row);
-        //abstract public void AddRow(int rowIndex);
-        //abstract public void DeleteRow(int rowIndex);
-        //abstract public void DeleteRows(int fromRowIndex, int toRowIndex);
-
+        abstract public Row CreateRow();
     }
 }

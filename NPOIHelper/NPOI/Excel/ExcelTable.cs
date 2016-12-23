@@ -13,20 +13,18 @@ namespace NPOIHelper.NPOI.Excel
         public ExcelTable()
             : base()
         {
-            //Rows = new List<Row>();
+            Title = new ExcelTitle();
+            Header = new ExcelHeader();
+            TableHeader = new ExcelTableHeader();
+            TableBody = new ExcelTableBody();
+            TableFooter = new ExcelTableFooter();
+            Footer = new ExcelFooter();
         }
 
-        public override Row CreateRow(bool isRowHeader = false)
+        public override Row CreateRow()
         {
             ExcelRow row = new ExcelRow();
-            row.IsRowHead = isRowHeader;
-            //row.IsColHead = isColHeader;
             return row;
-        }
-
-        public override void AddRow(Row row)
-        {
-            Rows.Add(row);
         }
     }
 }

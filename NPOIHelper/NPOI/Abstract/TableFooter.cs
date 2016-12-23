@@ -14,11 +14,11 @@ namespace NPOIHelper.NPOI.Abstract
         }
         public IList<Row> Rows { get; set; }
 
-        private string defaultTableFooterCellStyle;
-        public string DefaultTableFooterCellStyle
+        public string DefaultTableFooterCellStyle { get; set; }
+
+        public bool IsNull()
         {
-            get { return defaultTableFooterCellStyle; }
-            set { defaultTableFooterCellStyle = value; }
+            return Rows.Count() == 0 ? true : false;
         }
 
         abstract public void AddRow(Row row);

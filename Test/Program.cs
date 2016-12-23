@@ -21,9 +21,13 @@ namespace Test
             {
                 ExcelTable table = new ExcelTable();
                 table.Landscape = true;
-                table.Title = "疑似黑广播信号出现情况" + (k + 1);
+                //table.Title = "疑似黑广播信号出现情况" + (k + 1);
                 table.ColumnCount = 10;
                 int[] columnswidth = new int[table.ColumnCount];
+
+                ExcelTitle title = new ExcelTitle();
+                title.TableTitle = "疑似黑广播信号出现情况" + (k + 1);
+                table.Title = title;
 
                 ExcelHeader header = new ExcelHeader();
 
@@ -70,12 +74,17 @@ namespace Test
                 footer.Rows = footerrows;
                 table.Footer = footer;
 
+                ExcelTableHeader tableheader = new ExcelTableHeader();
+                ExcelTableBody tablebody = new ExcelTableBody();
+
+                //throws.Add(new )
+
                 for (int r = 0; r < table.ColumnCount; r++)
                 {
                     ExcelRow row;
-                    if (r == 0)
+                    if (r == 0 || r == 1)
                     {
-                        row = (ExcelRow)table.CreateRow(true);
+                        row = (ExcelRow)table.CreateRow();
                         row.Height = 28;
                     }
                     else
@@ -86,38 +95,52 @@ namespace Test
                     for (int i = 0; i < table.ColumnCount; i++)
                     {
                         ExcelCell cell = (ExcelCell)row.CreateCell();
-                        if (i == 1)
+                        if (r == 4 && i == 5)
                         {
-                            cell.CellType = NPOIHelper.NPOI.Common.CellTypes.Numeric;
-                            cell.Value = r * i;
-                            cell.Style = "border:thin;font-color:red;font-weight:normal;text-align:left;";
+                            cell.Style = "border:thin;font-color:#03A9F4;font-weight:bold;text-align:left;vertical-align:center;font-weight:bold;";
                         }
-                        else
-                        {
+                        //if (i == 1)
+                        //{
+                        //    cell.CellType = NPOIHelper.NPOI.Common.CellTypes.Numeric;
+                        //    cell.Value = r * i;
+                        //    cell.Style = "border:thin;font-color:red;font-weight:normal;text-align:left;";
+                        //}
+                        //else
+                        //{
                             cell.CellType = NPOIHelper.NPOI.Common.CellTypes.String;
-                            if (r == 0)
+                            if (r == 0 || r == 1)
                             {
                                 cell.Value = "标题" + i + "\r\n(单位)";
+                                columnswidth[i] = 12;
                             }
                             else
                             {
                                 cell.Value = "行:" + r + " 列:" + i;
                             }
-                        }
+                        //}
 
                         //cell.FontColor = HSSFColor.BlueGrey.Index;
                         row.AddCell(cell);
-                        columnswidth[i] = 12;
+                        
                     }
-                    table.ColumnWidths = columnswidth;
-                    table.AddRow(row);
+                    if (r == 0 || r == 1)
+                    {
+                        tableheader.AddRow(row);
+                    }
+                    else
+                    {
+                        tablebody.AddRow(row);
+                    }
                 }
-
+                table.TableHeader = tableheader;
+                table.TableBody = tablebody;
+                table.ColumnWidths = columnswidth;
                 l.Add(table);
             }
             ExcelHelper excelhelper = new ExcelHelper(l);
             MemoryStream s = excelhelper.RenderToXls();
             bool issaved = excelhelper.SaveToFile(s, "d:/test.xls");
+            //issaved = false;
             if (issaved)
             {
                 IPrint proxy = null;

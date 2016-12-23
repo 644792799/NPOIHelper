@@ -45,12 +45,16 @@ namespace NPOIHelper.NPOI.Excel
                 foreach (var table in listTable)
                 {
                     int columnCount = table.ColumnCount;
-                    var head = table.Rows.FirstOrDefault(r => r.IsRowHead);
-                    var body = table.Rows.Where(r => !r.IsRowHead).ToList();
+                    var title = table.Title == null ? new ExcelTitle() : table.Title;
+                    var header = table.Header == null ? new ExcelHeader() : table.Header;
+                    var tableheader = table.TableHeader == null ? new ExcelTableHeader() : table.TableHeader;//table.Rows.FirstOrDefault(r => r.IsRowHead);
+                    var tablebody = table.TableBody == null ? new ExcelTableBody() : table.TableBody;//table.Rows.Where(r => !r.IsRowHead).ToList();
+                    var tablefooter = table.TableFooter == null ? new ExcelTableFooter() : table.TableFooter;
+                    var footer = table.Footer == null ? new ExcelFooter() : table.Footer;
 
                     if (rowIndex == 0)
                     {
-                        sheet = string.IsNullOrWhiteSpace(table.Title) ? workbook.CreateSheet() as HSSFSheet : workbook.CreateSheet(table.Title) as HSSFSheet;
+                        sheet = title.IsNullOrWhiteSpace() ? workbook.CreateSheet() as HSSFSheet : workbook.CreateSheet(title.TableTitle) as HSSFSheet;
                         PrintSetup(sheet, table.Landscape);
                         if (table.ColumnWidths != null && table.ColumnWidths.Length == columnCount)
                         {
@@ -61,11 +65,11 @@ namespace NPOIHelper.NPOI.Excel
                         }
                         else
                         {
-                            if (head != null)
+                            if (!tableheader.IsNull())
                             {
                                 for (var i = 0; i < columnCount; i++)
                                 {
-                                    int columnWidth = Encoding.Default.GetBytes(head.Cells[i].Value.ToString()).Length;
+                                    int columnWidth = Encoding.Default.GetBytes(tableheader.Rows[0].Cells[i].Value.ToString()).Length;
                                     sheet.SetColumnWidth(i, columnWidth * 256 + 200);
                                 }
                             }
@@ -73,33 +77,35 @@ namespace NPOIHelper.NPOI.Excel
                     }
 
                     //标题
-                    if (!string.IsNullOrWhiteSpace(table.Title))
+                    if (!title.IsNullOrWhiteSpace())
                     {
                         IRow rowTitle = sheet.CreateRow(rowIndex);
-                        rowTitle.Height = short.Parse(table.TitleHeight * 20 + "");
+                        rowTitle.Height = short.Parse(title.TitleHeight * 20 + "");
                         ICell headerCell = rowTitle.CreateCell(0);
-                        headerCell.SetCellValue(table.Title);
+                        headerCell.SetCellValue(title.TableTitle);
                         sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, columnCount - 1));
-                        var defaultTitleCellStyle = workbook.GetDefaultTitleCellStyle();
+                        var defaultTitleCellStyle = string.IsNullOrWhiteSpace(title.DefaultTitleCellStyle) ?
+                            workbook.GetDefaultTitleCellStyle() : workbook.GetUserDirCellStyle(title.DefaultTitleCellStyle);
                         headerCell.Style(defaultTitleCellStyle);
                         //ExcelCellSetter.SetDefaultTitleCellStyle(workbook, headerCell);
                         rowIndex++;
                     }
 
                     //页头
-                    if (table.Header != null)
+                    if (!header.IsNull())
                     {
-                        for (var rindex = 0; rindex < table.Header.Rows.Count; rindex++)
+                        ICellStyle defaultHeaderCellStyle = string.IsNullOrWhiteSpace(header.DefaultHeaderCellStyle) ?
+                            workbook.GetDefaultHeaderCellStyle() : workbook.GetUserDirCellStyle(header.DefaultHeaderCellStyle);//ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
+                        for (var rindex = 0; rindex < header.Rows.Count; rindex++)
                         {
                             var headerRow = sheet.CreateRow(rowIndex);
-                            var row = table.Header.Rows[rindex];
+                            var row = header.Rows[rindex];
                             if (row.HaveRowBreak)
                             {
                                 SetRowBreak(rowIndex, sheet);
                             }
                             headerRow.Height = short.Parse(row.Height * 20 + "");
                             int colindex = 0;
-                            ICellStyle defaultHeaderCellStyle = workbook.GetDefaultHeaderCellStyle();//ExcelCellSetter.GetDefaultHeaderCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
                             {
                                 int colspan = row.Cells[cindex].Colspan;
@@ -127,72 +133,118 @@ namespace NPOIHelper.NPOI.Excel
                         }
                     }
 
-                    if (!body.Any())
-                    {
-                        //throw new Exception("没有需要导出的数据");
-                    }
-
                     //表头
-                    if (head != null)
+                    if (!tableheader.IsNull())
                     {
-                        var headerRow = sheet.CreateRow(rowIndex++);
-                        headerRow.Height = short.Parse(head.Height * 20 + "");
-                        ICellStyle defaultTableHeaderCellStyle = ExcelCellSetter.GetDefaultTableHeaderCellStyle(workbook);
-                        for (var i = 0; i < columnCount; i++)
+                        ICellStyle defaultTableHeaderCellStyle =
+                            string.IsNullOrWhiteSpace(
+                            tableheader.DefaultTableHeaderCellStyle) ?
+                            workbook.GetDefaultTableHeaderCellStyle() :
+                            workbook.GetUserDirCellStyle(tableheader.DefaultTableHeaderCellStyle);//ExcelCellSetter.GetDefaultTableHeaderCellStyle(workbook);
+                        foreach (var hr in tableheader.Rows)
                         {
-                            ExcelCell cell = (ExcelCell)head.Cells[i];
-                            headerRow.CreateCell(i).SetCellValue(cell.Value);
-                            if (cell.CellStyle != null)
+                            var headerRow = sheet.CreateRow(rowIndex++);
+                            headerRow.Height = short.Parse(hr.Height * 20 + "");
+                            for (var i = 0; i < columnCount; i++)
                             {
-                                ExcelCellSetter.SetCellStyle(headerRow.Cells[i], cell.CellStyle);
-                            }
-                            else
-                            {
-                                ExcelCellSetter.SetCellStyle(headerRow.Cells[i], defaultTableHeaderCellStyle);
+                                ExcelCell cell = (ExcelCell)hr.Cells[i];
+                                headerRow.CreateCell(i).SetCellValue(cell.Value);
+                                if (cell.CellStyle != null)
+                                {
+                                    headerRow.Cells[i].Style(cell.CellStyle);
+                                    //ExcelCellSetter.SetCellStyle(headerRow.Cells[i], cell.CellStyle);
+                                }
+                                else if (cell.Style != null)
+                                {
+                                    headerRow.Cells[i].Style(cell.Style);
+                                }
+                                else
+                                {
+                                    headerRow.Cells[i].Style(defaultTableHeaderCellStyle);
+                                    //ExcelCellSetter.SetCellStyle(headerRow.Cells[i], defaultTableHeaderCellStyle);
+                                }
                             }
                         }
                     }
 
                     //表体
-                    foreach (var row in body)
+                    if (!tablebody.IsNull())
                     {
-                        var dataRow = sheet.CreateRow(rowIndex++);
-                        if (row.HaveRowBreak)
+                        ICellStyle defaultcellstyle = string.IsNullOrWhiteSpace(tablebody.DefaultTableBodyCellStyle) ?
+                            workbook.GetDefaultTableBodyCellStyle() : workbook.GetUserDirCellStyle(tablebody.DefaultTableBodyCellStyle);//ExcelCellSetter.GetDefaultCellStyle(workbook);
+                        //表体
+                        foreach (var row in tablebody.Rows)
                         {
-                            SetRowBreak(rowIndex, sheet);
+                            var dataRow = sheet.CreateRow(rowIndex++);
+                            if (row.HaveRowBreak)
+                            {
+                                SetRowBreak(rowIndex, sheet);
+                            }
+                            dataRow.Height = short.Parse(row.Height * 20 + "");
+                            for (var i = 0; i < columnCount; i++)
+                            {
+                                ExcelCell cell = (ExcelCell)row.Cells[i];
+                                var cellval = cell.Value == null ? "" : cell.Value;
+                                dataRow.CreateCell(i, (CellType)cell.CellType).SetCellValue(cellval);
+                                if (cell.CellStyle != null)
+                                {
+                                    dataRow.Cells[i].Style(cell.CellStyle);
+                                    //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], cell.CellStyle);
+                                }
+                                else if (cell.Style != null)
+                                {
+                                    dataRow.Cells[i].Style(cell.Style);
+                                }
+                                else
+                                {
+                                    dataRow.Cells[i].Style(defaultcellstyle);
+                                    //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], defaultcellstyle);
+                                }
+                            }
                         }
-                        dataRow.Height = short.Parse(row.Height * 20 + "");
-                        ICellStyle defaultcellstyle = workbook.GetDefaultCellStyle();//ExcelCellSetter.GetDefaultCellStyle(workbook);
-                        for (var i = 0; i < columnCount; i++)
+                    }
+
+                    //表尾
+                    if (!tablefooter.IsNull())
+                    {
+                        ICellStyle defaultTableFooterCellStyle =
+                            string.IsNullOrWhiteSpace(
+                            tablefooter.DefaultTableFooterCellStyle) ?
+                            workbook.GetDefaultTableFooterCellStyle() :
+                            workbook.GetUserDirCellStyle(tablefooter.DefaultTableFooterCellStyle);//ExcelCellSetter.GetDefaultTableHeaderCellStyle(workbook);
+                        foreach (var hr in tablefooter.Rows)
                         {
-                            ExcelCell cell = (ExcelCell)row.Cells[i];
-                            var cellval = cell.Value == null ? "" : cell.Value;
-                            dataRow.CreateCell(i, (CellType)cell.CellType).SetCellValue(cellval);
-                            if (cell.CellStyle != null)
+                            var footerRow = sheet.CreateRow(rowIndex++);
+                            footerRow.Height = short.Parse(hr.Height * 20 + "");
+                            for (var i = 0; i < columnCount; i++)
                             {
-                                dataRow.Cells[i].Style(cell.CellStyle);
-                                //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], cell.CellStyle);
-                            }
-                            else if (cell.Style != null)
-                            {
-                                dataRow.Cells[i].Style(cell.Style);
-                            }
-                            else
-                            {
-                                dataRow.Cells[i].Style(defaultcellstyle);
-                                //ExcelCellSetter.SetCellStyle(dataRow.Cells[i], defaultcellstyle);
+                                ExcelCell cell = (ExcelCell)hr.Cells[i];
+                                footerRow.CreateCell(i).SetCellValue(cell.Value);
+                                if (cell.CellStyle != null)
+                                {
+                                    footerRow.Cells[i].Style(cell.CellStyle);
+                                }
+                                else if (cell.Style != null)
+                                {
+                                    footerRow.Cells[i].Style(cell.Style);
+                                }
+                                else
+                                {
+                                    footerRow.Cells[i].Style(defaultTableFooterCellStyle);
+                                }
                             }
                         }
                     }
 
                     //页尾
-                    if (table.Footer != null)
+                    if (!footer.IsNull())
                     {
-                        Footer footer = table.Footer;
-                        for (var rindex = 0; rindex < table.Footer.Rows.Count; rindex++)
+                        ICellStyle defaultFooterCellStyle = string.IsNullOrWhiteSpace(footer.DefaultFooterCellStyle) ?
+                            workbook.GetDefaultFooterCellStyle() : workbook.GetUserDirCellStyle(footer.DefaultFooterCellStyle);//ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
+                        for (var rindex = 0; rindex < footer.Rows.Count; rindex++)
                         {
                             var footerRow = sheet.CreateRow(rowIndex);
-                            var row = table.Footer.Rows[rindex];
+                            var row = footer.Rows[rindex];
                             if (row.HaveRowBreak)
                             {
                                 SetRowBreak(rowIndex, sheet);
@@ -200,7 +252,6 @@ namespace NPOIHelper.NPOI.Excel
                             //1 px = 0.75 point
                             footerRow.Height = short.Parse(row.Height * 0.75 * 20 + "");
                             int colindex = 0;
-                            ICellStyle defaultFooterCellStyle = workbook.GetDefaultFooterCellStyle();//ExcelCellSetter.GetDefaultFooterCellStyle(workbook);
                             for (var cindex = 0; cindex < row.Cells.Count; cindex++)
                             {
                                 int colspan = row.Cells[cindex].Colspan;

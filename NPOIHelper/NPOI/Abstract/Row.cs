@@ -8,27 +8,18 @@ namespace NPOIHelper.NPOI.Abstract
 {
     public abstract class Row
     {
+        const short DEFAULT_ROW_HEIGHT = 25;
         public Row()
         {
             Cells = new List<Cell>();
-            IsRowHead = false;
-            IsColHead = false;
             HaveRowBreak = false;
         }
-        /// <summary>
-        /// 是否是横向表头
-        /// </summary>
-        public bool IsRowHead { get; set; }
-        /// <summary>
-        /// 是否是竖向表头
-        /// </summary>
-        public bool IsColHead { get; set; }
         /// <summary>
         /// 是否包含分页符
         /// </summary>
         public bool HaveRowBreak { get; set; }
         public IList<Cell> Cells { get; set; }
-        private short height = 25;
+        private short height = DEFAULT_ROW_HEIGHT;
         public short Height 
         {
             get { return height; }

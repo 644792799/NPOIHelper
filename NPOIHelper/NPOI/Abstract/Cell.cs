@@ -34,6 +34,10 @@ namespace NPOIHelper.NPOI.Abstract
             }
         }
         /// <summary>
+        /// 改变单元格样式是否基于默认样式（针对Style属性有效）
+        /// </summary>
+        public bool IsBasedOnDefaultStyle { get; set; }
+        /// <summary>
         /// 单元格样式CSS字符串表示
         /// </summary>
         public string Style { get; set; }
@@ -51,6 +55,7 @@ namespace NPOIHelper.NPOI.Abstract
             CellType = CellTypes.String;
             Colspan = 1;
             Rowspan = 1;
+            IsBasedOnDefaultStyle = false;
         }
 
         public Cell(dynamic value) {
@@ -58,6 +63,7 @@ namespace NPOIHelper.NPOI.Abstract
             CellType = CellTypes.String;
             Colspan = 1;
             Rowspan = 1;
+            IsBasedOnDefaultStyle = false;
         }
 
         public Cell(dynamic value,CellTypes cellType) {
@@ -65,6 +71,7 @@ namespace NPOIHelper.NPOI.Abstract
             CellType = cellType;
             Colspan = 1;
             Rowspan = 1;
+            IsBasedOnDefaultStyle = false;
         }
     }
 }
