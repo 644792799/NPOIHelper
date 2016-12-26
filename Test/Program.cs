@@ -97,7 +97,8 @@ namespace Test
                         ExcelCell cell = (ExcelCell)row.CreateCell();
                         if (r == 4 && i == 5)
                         {
-                            cell.Style = "border:thin;font-color:#03A9F4;font-weight:bold;text-align:left;vertical-align:center;font-weight:bold;";
+                            cell.IsBasedOnDefaultStyle = true;
+                            cell.Style = "font-color:#03A8F4;border-color:#03A8F4;font-size:50;";
                         }
                         //if (i == 1)
                         //{

@@ -34,7 +34,6 @@ namespace NPOIHelper.NPOI.Abstract
         public TableHeader TableHeader { get; set; }
         public TableBody TableBody { get; set; }
         public TableFooter TableFooter { get; set; }
-        //public IList<string> Columns { get; set; }
         public Footer Footer { get; set; }
         public int ColumnCount { get; set; }
         public int[] ColumnWidths { get; set; }

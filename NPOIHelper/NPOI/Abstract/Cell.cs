@@ -39,6 +39,7 @@ namespace NPOIHelper.NPOI.Abstract
         public bool IsBasedOnDefaultStyle { get; set; }
         /// <summary>
         /// 单元格样式CSS字符串表示
+        /// 注：此属性建议特殊样式使用，不建议过多的特殊样式，不建议每个单元格都赋值同样的CSS样式 如果样式相同请设置默认样式
         /// </summary>
         public string Style { get; set; }
         /// <summary>

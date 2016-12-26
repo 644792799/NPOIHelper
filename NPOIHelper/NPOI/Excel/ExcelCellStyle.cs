@@ -117,9 +117,21 @@ namespace NPOIHelper.NPOI.Excel
         /// <param name="workbook"></param>
         /// <param name="fontDic"></param>
         /// <returns></returns>
-        public static IFont GetFont(this IWorkbook workbook, Dictionary<string, string> fontDic)
+        public static IFont GetFont(this IWorkbook workbook, ICellStyle cellstyle, Dictionary<string, string> fontDic)
         {
             IFont font = workbook.CreateFont();
+            if (cellstyle.GetFont(workbook) != null)
+            {
+                var oldfont = cellstyle.GetFont(workbook);
+                font.Boldweight = oldfont.Boldweight;
+                font.Color = oldfont.Color;
+                font.IsItalic = oldfont.IsItalic;
+                font.FontName = oldfont.FontName;
+                font.FontHeightInPoints = oldfont.FontHeightInPoints;
+                font.IsStrikeout = oldfont.IsStrikeout;
+                font.TypeOffset = oldfont.TypeOffset;
+                font.Underline = oldfont.Underline;
+            }
             fontDic.FontWeight(font);
             fontDic.FontColor(workbook, font);
             fontDic.FontItalic(font);
@@ -161,7 +173,7 @@ namespace NPOIHelper.NPOI.Excel
             cell.CellStyle = style;
         }
         /// <summary>
-        /// CSS格式属性赋值给单元格样式
+        /// CSS格式属性赋值给单元格样式(特殊样式或者用户自定义样式用)
         /// </summary>
         /// <param name="cellstyle"></param>
         /// <param name="workbook"></param>
@@ -175,7 +187,7 @@ namespace NPOIHelper.NPOI.Excel
             {
                 fontDic.Add(kv.Key, kv.Value);
             }
-            var font = workbook.GetFont(fontDic);
+            var font = workbook.GetFont(cellstyle, fontDic);
             cellstyle.SetFont(font);
             var propDic = prop.Except(fontDic);
             foreach (var kvp in propDic)
@@ -714,17 +726,20 @@ namespace NPOIHelper.NPOI.Excel
         public static void FontWeight(this Dictionary<string, string> fontdic, IFont font)
         {
             string fontweight = GetDicValue(fontdic, "font-weight");
-            switch (fontweight.ToUpper())
+            if (fontweight != null)
             {
-                case "NORMAL":
-                    font.Boldweight = 400;
-                    break;
-                case "BOLD":
-                    font.Boldweight = 700;
-                    break;
-                default:
-                    font.Boldweight = short.Parse(fontweight);
-                    break;
+                switch (fontweight.ToUpper())
+                {
+                    case "NORMAL":
+                        font.Boldweight = 400;
+                        break;
+                    case "BOLD":
+                        font.Boldweight = 700;
+                        break;
+                    default:
+                        font.Boldweight = short.Parse(fontweight);
+                        break;
+                }
             }
         }
 

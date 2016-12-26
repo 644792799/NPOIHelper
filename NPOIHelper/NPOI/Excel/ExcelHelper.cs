@@ -120,6 +120,10 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else if (row.Cells[cindex].Style != null)
                                 {
+                                    if (row.Cells[cindex].IsBasedOnDefaultStyle)
+                                    {
+                                        headerRow.Cells[colindex].Style(defaultHeaderCellStyle);
+                                    }
                                     headerRow.Cells[colindex].Style(row.Cells[cindex].Style);
                                 }
                                 else
@@ -156,6 +160,10 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else if (cell.Style != null)
                                 {
+                                    if (cell.IsBasedOnDefaultStyle)
+                                    {
+                                        headerRow.Cells[i].Style(defaultTableHeaderCellStyle);
+                                    }
                                     headerRow.Cells[i].Style(cell.Style);
                                 }
                                 else
@@ -193,6 +201,10 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else if (cell.Style != null)
                                 {
+                                    if (cell.IsBasedOnDefaultStyle)
+                                    {
+                                        dataRow.Cells[i].Style(defaultcellstyle);
+                                    }
                                     dataRow.Cells[i].Style(cell.Style);
                                 }
                                 else
@@ -226,6 +238,10 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else if (cell.Style != null)
                                 {
+                                    if (cell.IsBasedOnDefaultStyle)
+                                    {
+                                        footerRow.Cells[i].Style(defaultTableFooterCellStyle);
+                                    }
                                     footerRow.Cells[i].Style(cell.Style);
                                 }
                                 else
@@ -281,6 +297,10 @@ namespace NPOIHelper.NPOI.Excel
                                 }
                                 else if (row.Cells[cindex].Style != null)
                                 {
+                                    if (row.Cells[cindex].IsBasedOnDefaultStyle)
+                                    {
+                                        footerRow.Cells[colindex].Style(defaultFooterCellStyle);
+                                    }
                                     footerRow.Cells[colindex].Style(row.Cells[cindex].Style);
                                 }
                                 else
